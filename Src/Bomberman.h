@@ -18,6 +18,7 @@ private:
     sf::Texture leftTexture;
 
     float movementSpeed;
+    std::string movementDirection;
 
     int livesMax;
 
@@ -35,11 +36,13 @@ public:
 
     //Accessors
     const sf::FloatRect getBounds() const;
+    std::string getDirection();
 
     //Modifies
     void setPosition(const float x, const float y);
     void setScale(const float xScale,const float yScale);
     void changeDirection(const std::string& direction);
+
 
 
     //Functions
