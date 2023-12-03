@@ -7,6 +7,7 @@
 #include "Manual.h"
 #include "vector"
 #include "Bomberman.h"
+#include "Wall.h"
 
 
 
@@ -21,6 +22,10 @@ private:
 
     //Map
     std::vector<std::vector<char>> map;
+
+
+    //Walls
+    std::vector<Wall*> walls;
 
     //Map Specifications
     int numBlocksX;
@@ -37,6 +42,7 @@ private:
     void initGrassSprite();
     void initVariables();
     void initPlayer();
+    void initWalls();
     void initMapSpecifications();
 
 
@@ -57,6 +63,7 @@ public:
     void run();
     void update();
     void updateInput();
+    void updateBoundsCollision();
     void render();
     void renderGrass();
     void readmap();

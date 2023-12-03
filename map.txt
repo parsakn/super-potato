@@ -1,20 +1,20 @@
-                 P
-             P     P
-  P              B P
-P             B       
-           B
-B             P       
-P   P P               
-B   P    P     B   P  
-P   B  B P    P       
-P        B   P     B  
-P B    P          P   
-B    B     P B     P 
-  P         P
-  B   P P     B P
-  B      P   P   B
-  P    B P P   B
-P P  P      P   B  P 
-B P   P   B  B P P   
-P    B P     B    P  
-B P    B  P   P   B 
+                  PP
+                  PP
+                  PP
+                  PP
+                  PP
+                  PP
+                  PP
+PPPPPPPPPPPPPP  BBPP
+                PPPP
+PPPPPPPPPPPPPP  BBPP
+                  PP
+                  PP
+      V           PP
+                  PP
+H                 PP
+                  PP
+                  PP
+PPPPPPPPPPPPPP  BBPP
+                PPPP
+PPPPPPPPPPPPPP  BBPP

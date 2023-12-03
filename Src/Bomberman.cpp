@@ -63,7 +63,7 @@ void Bomberman::setScale(const float xScale, const float yScale) {
     this->sprite.setScale(xScale,yScale);
 }
 
-void Bomberman::changeDirection(std::string direction) {
+void Bomberman::changeDirection(const std::string& direction) {
 
     if (direction == "Right"){
         this->sprite.setTexture(this->rightTexture);
@@ -77,6 +77,10 @@ void Bomberman::changeDirection(std::string direction) {
     if (direction == "Down"){
         this->sprite.setTexture(this->downTexture);
     }
+}
+
+const sf::FloatRect Bomberman::getBounds() const {
+    return this->sprite.getGlobalBounds();
 }
 
 

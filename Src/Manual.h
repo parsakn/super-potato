@@ -20,6 +20,6 @@ const std::string MAP_TXTFILE_ADDRESS = "/home/parsa/CLionProjects/BomberMan_V5/
 
 
 
-const int MAX_LIVES = 3;
+const int MAX_LIVES = 2;
 const int MAX_BOMBS = 3;
 #endif //BOMBERMAN_V5_MANUAL_H

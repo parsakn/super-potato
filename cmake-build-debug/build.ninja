@@ -67,6 +67,12 @@ build CMakeFiles/BomberMan_V5.dir/Src/Bomberman.cpp.o: CXX_COMPILER__BomberMan_V
   OBJECT_DIR = CMakeFiles/BomberMan_V5.dir
   OBJECT_FILE_DIR = CMakeFiles/BomberMan_V5.dir/Src
 
+build CMakeFiles/BomberMan_V5.dir/Src/Wall.cpp.o: CXX_COMPILER__BomberMan_V5_unscanned_Debug /home/parsa/CLionProjects/BomberMan_V5/Src/Wall.cpp || cmake_object_order_depends_target_BomberMan_V5
+  DEP_FILE = CMakeFiles/BomberMan_V5.dir/Src/Wall.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/BomberMan_V5.dir
+  OBJECT_FILE_DIR = CMakeFiles/BomberMan_V5.dir/Src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target BomberMan_V5
@@ -75,7 +81,7 @@ build CMakeFiles/BomberMan_V5.dir/Src/Bomberman.cpp.o: CXX_COMPILER__BomberMan_V
 #############################################
 # Link the executable BomberMan_V5
 
-build BomberMan_V5: CXX_EXECUTABLE_LINKER__BomberMan_V5_Debug CMakeFiles/BomberMan_V5.dir/Src/main.cpp.o CMakeFiles/BomberMan_V5.dir/Src/Game.cpp.o CMakeFiles/BomberMan_V5.dir/Src/Bomberman.cpp.o
+build BomberMan_V5: CXX_EXECUTABLE_LINKER__BomberMan_V5_Debug CMakeFiles/BomberMan_V5.dir/Src/main.cpp.o CMakeFiles/BomberMan_V5.dir/Src/Game.cpp.o CMakeFiles/BomberMan_V5.dir/Src/Bomberman.cpp.o CMakeFiles/BomberMan_V5.dir/Src/Wall.cpp.o
   FLAGS = -g
   LINK_LIBRARIES = -lsfml-graphics  -lsfml-window  -lsfml-system
   OBJECT_DIR = CMakeFiles/BomberMan_V5.dir

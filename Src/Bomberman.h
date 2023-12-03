@@ -33,16 +33,20 @@ public:
     virtual ~Bomberman();
 
 
+    //Accessors
+    const sf::FloatRect getBounds() const;
+
     //Modifies
     void setPosition(const float x, const float y);
     void setScale(const float xScale,const float yScale);
-    void changeDirection(std::string direction);
+    void changeDirection(const std::string& direction);
 
 
     //Functions
     void move(const float dirX, const float dirY);
     void update();
     void render(sf::RenderTarget& target);
+
 
 
 };

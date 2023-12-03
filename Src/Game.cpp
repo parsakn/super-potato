@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "vector"
 
 
 void Game::initWindow() {
@@ -58,6 +59,7 @@ void Game::run() {
 
 void Game::update() {
     this->updateInput();
+    this->updateBoundsCollision();
 
 }
 
@@ -79,6 +81,10 @@ void Game::render() {
     this->window->clear();
 
     this->renderGrass();
+
+    for (int i = 0; i < walls.size(); ++i) {
+        walls[i]->render(*this->window);
+    }
 
     this->bomberMan->render(*this->window);
 
@@ -118,7 +124,7 @@ Game::Game() {
     this->initGrassTexture();
     this->initGrassSprite();
     this->initPlayer();
-
+    this->initWalls();
 
 }
 
@@ -163,6 +169,56 @@ void Game::updateInput() {
         this->bomberMan->move(0.f, 1.f);
     }
 
+}
+
+void Game::initWalls() {
+
+    float blockSize_f;
+    blockSize_f = static_cast<float>(this->blockSize);
+    float grassSizeX = grassTexture.getSize().x;
+    float grassSizeY = grassTexture.getSize().y;
+
+
+
+
+    for (int i = 0; i < map.size(); ++i) {
+        for (int j = 0; j < map[i].size(); ++j) {
+            if (map[i][j] == 'P'){
+                this->walls.push_back(new Wall('P'));
+                walls[walls.size() - 1]->setPosition(j * blockSize,i * blockSize);
+                walls[walls.size() - 1]->setScale((blockSize_f / grassSizeX) , (blockSize_f / grassSizeY));
+            }
+            if (map[i][j] == 'B'){
+                this->walls.push_back(new Wall('B'));
+                walls[walls.size() - 1]->setPosition(j * blockSize,i * blockSize);
+                walls[walls.size() - 1]->setScale((blockSize_f / grassSizeX) , (blockSize_f / grassSizeY));
+            }
+        }
+    }
+}
+
+void Game::updateBoundsCollision() {
+    //Left world collision
+    if (this->bomberMan->getBounds().left < 0.f)
+    {
+        this->bomberMan->setPosition(0.f, this->bomberMan->getBounds().top);
+    }
+        //Right world collison
+    else if (this->bomberMan->getBounds().left + this->bomberMan->getBounds().width >= this->window->getSize().x)
+    {
+        this->bomberMan->setPosition(this->window->getSize().x - this->bomberMan->getBounds().width, this->bomberMan->getBounds().top);
+    }
+
+    //Top world collision
+    if (this->bomberMan->getBounds().top < 0.f)
+    {
+        this->bomberMan->setPosition(this->bomberMan->getBounds().left, 0.f);
+    }
+        //Bottom world collision
+    else if (this->bomberMan->getBounds().top + this->bomberMan->getBounds().height >= this->window->getSize().y)
+    {
+        this->bomberMan->setPosition(this->bomberMan->getBounds().left, this->window->getSize().y - this->bomberMan->getBounds().height);
+    }
 }
 
 
