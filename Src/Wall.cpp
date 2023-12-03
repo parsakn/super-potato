@@ -43,3 +43,7 @@ void Wall::render(sf::RenderTarget &target) {
 void Wall::setScale(const float xScale, const float yScale) {
     this->sprite.setScale(xScale,yScale);
 }
+
+const sf::FloatRect Wall::getBounds() const {
+    return this->sprite.getGlobalBounds();
+}
