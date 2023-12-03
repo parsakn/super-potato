@@ -17,6 +17,9 @@ public:
     void setScale(const float xScale,const float yScale);
     void render(sf::RenderTarget& target);
 
+    //Accessors
+    const sf::FloatRect getBounds() const;
+
 private:
     char type;
     sf::Sprite sprite;
