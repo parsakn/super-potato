@@ -64,9 +64,11 @@ public:
     void update();
     void updateInput();
     void updateBoundsCollision();
+    void updateWallCollosion();
     void render();
     void renderGrass();
     void readmap();
+    int getSign(float number);
 
 
 };
