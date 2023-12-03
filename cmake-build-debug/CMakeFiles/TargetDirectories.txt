@@ -1,0 +1,3 @@
+/home/parsa/CLionProjects/BomberMan_V5/cmake-build-debug/CMakeFiles/BomberMan_V5.dir
+/home/parsa/CLionProjects/BomberMan_V5/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/parsa/CLionProjects/BomberMan_V5/cmake-build-debug/CMakeFiles/rebuild_cache.dir
