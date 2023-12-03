@@ -67,20 +67,28 @@ void Bomberman::changeDirection(const std::string& direction) {
 
     if (direction == "Right"){
         this->sprite.setTexture(this->rightTexture);
+        movementDirection = direction;
     }
     if (direction == "Left"){
         this->sprite.setTexture(this->leftTexture);
+        movementDirection = direction;
     }
     if (direction == "Up"){
         this->sprite.setTexture(this->upTexture);
+        movementDirection = direction;
     }
     if (direction == "Down"){
         this->sprite.setTexture(this->downTexture);
+        movementDirection = direction;
     }
 }
 
 const sf::FloatRect Bomberman::getBounds() const {
     return this->sprite.getGlobalBounds();
+}
+
+std::string Bomberman::getDirection() {
+    return this->movementDirection;
 }
 
 
