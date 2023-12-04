@@ -17,8 +17,9 @@ const std::string BOMB_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/bo
 const std::string WALL_TYPE1_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/wall-1.png";
 const std::string WALL_TYPE2_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/wall-2.png";
 const std::string MAP_TXTFILE_ADDRESS = "/home/parsa/CLionProjects/BomberMan_V5/map.txt";
-
-
+const std::string KEY_1_TXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/key.png";
+const std::string KEY_2_TXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/key2.png";
+const std::string KEY_3_TXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/key3.png";
 
 const int MAX_LIVES = 3;
 const int MAX_BOMBS = 3;
