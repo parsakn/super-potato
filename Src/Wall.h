@@ -20,6 +20,7 @@ public:
     //Accessors
     const sf::FloatRect getBounds() const;
 
+
 private:
     char type;
     sf::Sprite sprite;

@@ -57,6 +57,7 @@ void Game::run() {
     }
 }
 
+
 void Game::update() {
     this->updateInput();
     this->updateBoundsCollision();
@@ -156,18 +157,22 @@ void Game::updateInput() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
         this->bomberMan->changeDirection("Left");
         this->bomberMan->move(-1.f, 0.f);
+        this->updateWallCollosion();
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
         this->bomberMan->changeDirection("Right");
         this->bomberMan->move(1.f, 0.f);
+        this->updateWallCollosion();
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up )) {
         this->bomberMan->changeDirection("Up");
         this->bomberMan->move(0.f, -1.f);
+        this->updateWallCollosion();
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
         this->bomberMan->changeDirection("Down");
         this->bomberMan->move(0.f, 1.f);
+        this->updateWallCollosion();
     }
 
 }
@@ -229,16 +234,18 @@ void Game::updateWallCollosion() {
         sf::FloatRect wall = this->walls[i]->getBounds();
         sf::FloatRect player = this->bomberMan->getBounds();
         std::string direction = this->bomberMan->getDirection();
-
-        if (abs(wall.left - player.left) >= wall.width || abs(wall.top - player.top) >= wall.width)
+        if(abs(wall.top - player.top) >= wall.width || abs(wall.left - player.left) >= wall.width)
             continue;
-        else if (direction == "Up" || direction == "Down") {
-            float new_y = player.top + (wall.width - abs(player.top - wall.top)) * ((player.top - wall.top) / abs(player.top - wall.top));
-            this->bomberMan->setPosition((player.left),(new_y));
+        if (direction == "Up" || direction == "Down") {
+                    float new_y = player.top + (wall.width - abs(player.top - wall.top)) *
+                                               ((player.top - wall.top) / abs(player.top - wall.top));
+                    this->bomberMan->setPosition((player.left), (new_y));
+
         }
         else if (direction == "Right" || direction == "Left") {
-          float new_x = player.left + (wall.width - abs(player.left - wall.left)) * ((player.left - wall.left) / abs(player.left - wall.left));
-          this->bomberMan->setPosition((new_x),(player.top));
+                    float new_x = player.left + (wall.width - abs(player.left - wall.left)) *
+                                                ((player.left - wall.left) / abs(player.left - wall.left));
+                    this->bomberMan->setPosition((new_x), (player.top));
         }
     }
 }
@@ -254,6 +261,11 @@ int Game::getSign(float number) {
         }
 
 }
+
+
+
+
+
 
 
 
