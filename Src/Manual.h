@@ -8,15 +8,15 @@ const int windowWidth = 500;
 const int windowHeight = 500;
 
 
-const std::string BMAN_UP_TEXT = "C:/Users/Amir Mohammad Karimi/CLionProjects/super-potato/Sprites/boy/up.png";
-const std::string BMAN_DOWN_TEXT = "C:/Users/Amir Mohammad Karimi/CLionProjects/super-potato/Sprites/boy/down-stay.png";
-const std::string BMAN_RIGHT_TEXT = "C:/Users/Amir Mohammad Karimi/CLionProjects/super-potato/Sprites/boy/right.png";
-const std::string BMAN_LEFT_TXT = "C:/Users/Amir Mohammad Karimi/CLionProjects/super-potato/Sprites/boy/left.png";
-const std::string GRASS_TEXT = "C:/Users/Amir Mohammad Karimi/CLionProjects/super-potato/Sprites/grass.png";
-const std::string BOMB_TEXT = "C:/Users/Amir Mohammad Karimi/CLionProjects/super-potato/Sprites/bomb.png";
-const std::string WALL_TYPE1_TEXT = "C:/Users/Amir Mohammad Karimi/CLionProjects/super-potato/Sprites/wall-1.png";
-const std::string WALL_TYPE2_TEXT = "C:/Users/Amir Mohammad Karimi/CLionProjects/super-potato/Sprites/wall-2.png";
-const std::string MAP_TXTFILE_ADDRESS = "C:/Users/Amir Mohammad Karimi/CLionProjects/super-potato/map.txt";
+const std::string BMAN_UP_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/boy/up.png";
+const std::string BMAN_DOWN_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/boy/down-stay.png";
+const std::string BMAN_RIGHT_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/boy/right.png";
+const std::string BMAN_LEFT_TXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/boy/left.png";
+const std::string GRASS_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/grass.png";
+const std::string BOMB_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/bomb.png";
+const std::string WALL_TYPE1_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/wall-1.png";
+const std::string WALL_TYPE2_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/wall-2.png";
+const std::string MAP_TXTFILE_ADDRESS = "/home/parsa/CLionProjects/BomberMan_V5/map.txt";
 
 
 

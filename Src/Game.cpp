@@ -57,11 +57,14 @@ void Game::run() {
     }
 }
 
-
 void Game::update() {
     this->updateInput();
     this->updateBoundsCollision();
     this->fixWallCollosion();
+    for (int j = 0; j < bombs.size(); ++j) {
+        bombs[j]->update();
+    }
+    tickTokExplode();
 
 }
 
@@ -86,6 +89,10 @@ void Game::render() {
 
     for (int i = 0; i < walls.size(); ++i) {
         walls[i]->render(*this->window);
+    }
+
+    for (int j = 0; j < bombs.size(); ++j) {
+        bombs[j]->render(*this->window);
     }
 
     this->bomberMan->render(*this->window);
@@ -177,6 +184,9 @@ void Game::updateInput() {
         this->fixWallCollosion();
 
     }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::X)){
+        this->bombing();
+    }
 
 }
 
@@ -253,17 +263,52 @@ void Game::fixWallCollosion() {
     }
 }
 
-int Game::getSign(float number) {
-
-        if (number > 0) {
-            return 1;
-        } else if (number < 0) {
-            return -1;
-        } else {
-            return 0;
+void Game::bombing() {
+    sf::Vector2f bombPos = calcBombPos();
+    bool canBomb = false;
+    if (bombs.size() < 3){canBomb = true ; }
+    for (auto & bomb : bombs) {
+        if (bombPos.x == bomb->getBounds().left && bombPos.y == bomb->getBounds().top){
+            canBomb = false;
         }
+    }
+    if(canBomb){
+        bombs.push_back(new Bomb());
+
+
+        float blockSize_f;
+        blockSize_f = static_cast<float>(this->blockSize);
+        float grassSizeX = grassTexture.getSize().x;
+        float grassSizeY = grassTexture.getSize().y;
+
+        this->bombs[bombs.size() - 1 ]->setScale((blockSize_f / grassSizeX) , (blockSize_f / grassSizeY));
+        this->bombs[bombs.size() - 1]->setPosition(bombPos.x,bombPos.y);
+    }
+
 
 }
+
+sf::Vector2f Game::calcBombPos() {
+    float new_X =  bomberMan->getBounds().left + ((blockSize)/2);
+    float new_Y = bomberMan->getBounds().top + ((blockSize)/2);
+    float bombpositionx = new_X - ( static_cast<int>(new_X) % static_cast<int>(blockSize) );
+    float bombpositiony = new_Y - ( static_cast<int>(new_Y) % static_cast<int>(blockSize) );
+
+    return {bombpositionx,bombpositiony};
+}
+
+void Game::tickTokExplode() {
+
+    for (int i = 0; i < bombs.size(); ++i) {
+        bombs[i]->update();
+        if (bombs[i]->elapsedSeconds >= 2) {
+            delete bombs[i];
+            bombs.erase(bombs.begin() + i);
+        }
+    }
+}
+
+
 
 
 

@@ -8,6 +8,7 @@
 #include "vector"
 #include "Bomberman.h"
 #include "Wall.h"
+#include "Bomb.h"
 
 ///commendxvkm
 
@@ -32,6 +33,8 @@ private:
     int numBlockY;
     int blockSize;
 
+    //Bombs
+    std::vector<Bomb*> bombs;
 
     //BomberMan
     Bomberman* bomberMan;
@@ -59,6 +62,8 @@ public:
     ~Game();
 
     //Functions
+    void bombing();
+    void tickTokExplode();
     void updatePollEvents();
     void run();
     void update();
@@ -68,8 +73,8 @@ public:
     void render();
     void renderGrass();
     void readmap();
-    int getSign(float number);
 
+    sf::Vector2f calcBombPos();
 
 };
 

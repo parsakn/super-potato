@@ -43,8 +43,6 @@ public:
     void setScale(const float xScale,const float yScale);
     void changeDirection(const std::string& direction);
 
-
-
     //Functions
     void move(const float dirX, const float dirY);
     void update();

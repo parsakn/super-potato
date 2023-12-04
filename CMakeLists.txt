@@ -10,12 +10,11 @@ add_executable(BomberMan_V5 Src/main.cpp
         Src/Game.h
         Src/Manual.h
         Src/Bomberman.cpp
-        Src/Bomberman.h)
+        Src/Bomberman.h
+        Src/Bomb.cpp
+        Src/Bomb.h)
 
-set(SFML_STATIC_LIBRARIES TRUE)
-set(SFML_DIR C:/SFML/lib/cmake/SFML)
-find_package(SFML COMPONENTS system window graphics audio network REQUIRED)
-include_directories(C:/Project3/SFML/include/SFML)
+
 
 target_link_libraries(BomberMan_V5
         sfml-graphics
