@@ -358,6 +358,32 @@ void Game::bombermanExplosion(std::vector<sf::Vector2f> positions) {
        }
     }
 }
+std::vector<int> Game::getKeysIndex() {
+    std::vector<int>output;
+    std::vector<int> wall_type_B;
+    for(int i=0;i<this->walls.size();i++){
+        if(this->walls[i]->getType()=='B')
+            wall_type_B.push_back(i);
+    }
+    std::srand(time(0));
+    int var1=rand()%wall_type_B.size();
+    int var2=rand()%wall_type_B.size();
+    int var3=rand()%wall_type_B.size();
+    if(var1==var2){
+        while (var1==var2){
+            var2=rand()%wall_type_B.size();
+        }
+    }
+    if(var3==var1 || var3==var2){
+        while(var3==var1 || var3==var2){
+            var3=rand()%wall_type_B.size();
+        }
+    }
+    output.push_back(output[var1]);
+    output.push_back(output[var2]);
+    output.push_back(output[var3]);
+    return output;
+}
 
 
 

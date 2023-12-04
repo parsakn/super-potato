@@ -75,7 +75,7 @@ public:
     void render();
     void renderGrass();
     void readmap();
-
+    std::vector<int> getKeysIndex();
     sf::Vector2f calcBombPos();
     std::vector<sf::Vector2f> FindExplodedBlocks(sf::Vector2f bomb);
 
