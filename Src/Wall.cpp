@@ -48,3 +48,7 @@ const sf::FloatRect Wall::getBounds() const {
     return this->sprite.getGlobalBounds();
 }
 
+char Wall::getType() {
+    return this->type;
+}
+

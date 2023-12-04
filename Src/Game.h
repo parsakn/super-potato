@@ -68,6 +68,7 @@ public:
     void run();
     void update();
     void updateInput();
+    void wallExplosion(std::vector<sf::Vector2f> positions);
     void updateBoundsCollision();
     void fixWallCollosion();
     void render();
@@ -75,6 +76,7 @@ public:
     void readmap();
 
     sf::Vector2f calcBombPos();
+    std::vector<sf::Vector2f> FindExplodedBlocks(sf::Vector2f bomb);
 
 };
 

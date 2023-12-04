@@ -302,13 +302,49 @@ void Game::tickTokExplode() {
     for (int i = 0; i < bombs.size(); ++i) {
         bombs[i]->update();
         if (bombs[i]->elapsedSeconds >= 2) {
+
+            float x_b = bombs[i]->getBounds().left;
+            float y_b = bombs[i]->getBounds().top;
+            std::vector<sf::Vector2f> positions  = FindExplodedBlocks({x_b,y_b});
+            wallExplosion(positions);
             delete bombs[i];
             bombs.erase(bombs.begin() + i);
+
         }
     }
 }
 
+std::vector<sf::Vector2f> Game::FindExplodedBlocks(sf::Vector2f bomb) {
 
+    std::vector<sf::Vector2f> positions;
+
+    sf::Vector2f pos1 = {bomb.x - blockSize,bomb.y};
+    sf::Vector2f pos2 = {bomb.x + blockSize,bomb.y};
+    sf::Vector2f pos3 = {bomb.x ,bomb.y - blockSize};
+    sf::Vector2f pos4 = {bomb.x ,bomb.y + blockSize};
+
+    positions.push_back(pos1);
+    positions.push_back(pos2);
+    positions.push_back(pos3);
+    positions.push_back(pos4);
+
+    return positions;
+
+}
+
+void Game::wallExplosion(std::vector<sf::Vector2f> positions) {
+    for (int i = 0; i < walls.size(); ++i) {
+        for (int j = 0; j < positions.size(); ++j) {
+            float wall_X = this->walls[i]->getBounds().left;
+            float wall_Y = this->walls[i]->getBounds().top;
+
+            if(wall_X == positions[j].x && wall_Y == positions[j].y && walls[i]->getType() == 'B'){
+                delete walls[i];
+                walls.erase(walls.begin() + i);
+            }
+        }
+    }
+}
 
 
 
