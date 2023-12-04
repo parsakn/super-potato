@@ -47,6 +47,58 @@ void Game::initVariables() {
     this->bombMaxCount = MAX_BOMBS;
 }
 
+void Game::initWalls() {
+
+    float blockSize_f;
+    blockSize_f = static_cast<float>(this->blockSize);
+    float grassSizeX = grassTexture.getSize().x;
+    float grassSizeY = grassTexture.getSize().y;
+
+
+
+
+    for (int i = 0; i < map.size(); ++i) {
+        for (int j = 0; j < map[i].size(); ++j) {
+            if (map[i][j] == 'P'){
+                this->walls.push_back(new Wall('P'));
+                walls[walls.size() - 1]->setPosition(j * blockSize,i * blockSize);
+                walls[walls.size() - 1]->setScale((blockSize_f / grassSizeX) , (blockSize_f / grassSizeY));
+            }
+            if (map[i][j] == 'B'){
+                this->walls.push_back(new Wall('B'));
+                walls[walls.size() - 1]->setPosition(j * blockSize,i * blockSize);
+                walls[walls.size() - 1]->setScale((blockSize_f / grassSizeX) , (blockSize_f / grassSizeY));
+            }
+        }
+    }
+}
+
+void Game::initKeys() {
+
+
+    std::vector<int> randomIndexesOfBWalls = getKeysIndex();
+
+    keys.push_back(new Key(1));
+    keys.push_back(new Key(2));
+    keys.push_back(new Key(3));
+
+    for (int i = 0; i < keys.size(); ++i) {
+        float text_x = keys[i]->getsprite().getTexture()->getSize().x;
+        float text_y = keys[i]->getsprite().getTexture()->getSize().y;
+        keys[i]->setScale((blockSize / text_x) , (blockSize / text_y));
+        sf::FloatRect wallbounds = walls[randomIndexesOfBWalls[i]]->getBounds();
+        float wall_x = wallbounds.left;
+        float wall_y = wallbounds.top;
+        keys[i]->setPosition(wall_x,wall_y);
+    }
+}
+
+void Game::initMapSpecifications() {
+    this->numBlocksX = static_cast<int> (map.size());
+    this->numBlockY = static_cast<int> (map.size());
+    blockSize = windowWidth / numBlocksX;
+}
+
 void Game::run() {
 
     while (this->window->isOpen())
@@ -87,6 +139,10 @@ void Game::render() {
 
     this->renderGrass();
 
+    for (int t = 0; t < keys.size(); ++t) {
+        keys[t]->render(*this->window);
+    }
+
     for (int i = 0; i < walls.size(); ++i) {
         walls[i]->render(*this->window);
     }
@@ -94,6 +150,8 @@ void Game::render() {
     for (int j = 0; j < bombs.size(); ++j) {
         bombs[j]->render(*this->window);
     }
+
+
 
     this->bomberMan->render(*this->window);
 
@@ -134,6 +192,8 @@ Game::Game() {
     this->initGrassSprite();
     this->initPlayer();
     this->initWalls();
+    this->initKeys();
+
 
 }
 
@@ -151,12 +211,6 @@ void Game::updatePollEvents() {
         if (e.Event::key.code == sf::Keyboard::Escape)
             this->window->close();
     }
-}
-
-void Game::initMapSpecifications() {
-    this->numBlocksX = static_cast<int> (map.size());
-    this->numBlockY = static_cast<int> (map.size());
-    blockSize = windowWidth / numBlocksX;
 }
 
 void Game::updateInput() {
@@ -188,32 +242,6 @@ void Game::updateInput() {
         this->bombing();
     }
 
-}
-
-void Game::initWalls() {
-
-    float blockSize_f;
-    blockSize_f = static_cast<float>(this->blockSize);
-    float grassSizeX = grassTexture.getSize().x;
-    float grassSizeY = grassTexture.getSize().y;
-
-
-
-
-    for (int i = 0; i < map.size(); ++i) {
-        for (int j = 0; j < map[i].size(); ++j) {
-            if (map[i][j] == 'P'){
-                this->walls.push_back(new Wall('P'));
-                walls[walls.size() - 1]->setPosition(j * blockSize,i * blockSize);
-                walls[walls.size() - 1]->setScale((blockSize_f / grassSizeX) , (blockSize_f / grassSizeY));
-            }
-            if (map[i][j] == 'B'){
-                this->walls.push_back(new Wall('B'));
-                walls[walls.size() - 1]->setPosition(j * blockSize,i * blockSize);
-                walls[walls.size() - 1]->setScale((blockSize_f / grassSizeX) , (blockSize_f / grassSizeY));
-            }
-        }
-    }
 }
 
 void Game::updateBoundsCollision() {
@@ -358,8 +386,9 @@ void Game::bombermanExplosion(std::vector<sf::Vector2f> positions) {
        }
     }
 }
+
 std::vector<int> Game::getKeysIndex() {
-    std::vector<int>output;
+    std::vector<int> output;
     std::vector<int> wall_type_B;
     for(int i=0;i<this->walls.size();i++){
         if(this->walls[i]->getType()=='B')
@@ -379,11 +408,13 @@ std::vector<int> Game::getKeysIndex() {
             var3=rand()%wall_type_B.size();
         }
     }
-    output.push_back(output[var1]);
-    output.push_back(output[var2]);
-    output.push_back(output[var3]);
+    output.push_back(wall_type_B[var1]);
+    output.push_back(wall_type_B[var2]);
+    output.push_back(wall_type_B[var3]);
     return output;
 }
+
+
 
 
 

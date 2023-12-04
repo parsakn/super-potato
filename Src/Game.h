@@ -9,6 +9,7 @@
 #include "Bomberman.h"
 #include "Wall.h"
 #include "Bomb.h"
+#include "Key.h"
 
 ///commendxvkm
 
@@ -36,6 +37,9 @@ private:
     //Bombs
     std::vector<Bomb*> bombs;
 
+    //Keys
+    std::vector<Key*> keys;
+
     //BomberMan
     Bomberman* bomberMan;
 
@@ -46,6 +50,7 @@ private:
     void initVariables();
     void initPlayer();
     void initWalls();
+    void initKeys();
     void initMapSpecifications();
 
 

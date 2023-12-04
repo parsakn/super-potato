@@ -16,6 +16,7 @@ public:
 
     //Accessors
     sf::FloatRect getBounds() ;
+    sf::Sprite getsprite();
 
     //Modifies
     void setPosition(const float x, const float y);

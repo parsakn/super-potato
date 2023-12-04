@@ -50,3 +50,7 @@ Key::Key(int type) {
     initTexture();
     initSprite();
 }
+
+sf::Sprite Key::getsprite() {
+    return this->keySprite;
+}
