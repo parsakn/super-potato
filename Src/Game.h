@@ -64,7 +64,7 @@ public:
     void update();
     void updateInput();
     void updateBoundsCollision();
-    void updateWallCollosion();
+    void fixWallCollosion();
     void render();
     void renderGrass();
     void readmap();

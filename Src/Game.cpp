@@ -61,7 +61,7 @@ void Game::run() {
 void Game::update() {
     this->updateInput();
     this->updateBoundsCollision();
-    this->updateWallCollosion();
+    this->fixWallCollosion();
 
 }
 
@@ -157,22 +157,25 @@ void Game::updateInput() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
         this->bomberMan->changeDirection("Left");
         this->bomberMan->move(-1.f, 0.f);
-        this->updateWallCollosion();
+        this->fixWallCollosion();
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
         this->bomberMan->changeDirection("Right");
         this->bomberMan->move(1.f, 0.f);
-        this->updateWallCollosion();
+        this->fixWallCollosion();
+
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up )) {
         this->bomberMan->changeDirection("Up");
         this->bomberMan->move(0.f, -1.f);
-        this->updateWallCollosion();
+        this->fixWallCollosion();
+
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
         this->bomberMan->changeDirection("Down");
         this->bomberMan->move(0.f, 1.f);
-        this->updateWallCollosion();
+        this->fixWallCollosion();
+
     }
 
 }
@@ -227,7 +230,7 @@ void Game::updateBoundsCollision() {
     }
 }
 
-void Game::updateWallCollosion() {
+void Game::fixWallCollosion() {
 
 
     for (int i = 0; i < walls.size(); ++i) {
