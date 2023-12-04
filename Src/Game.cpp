@@ -247,16 +247,16 @@ void Game::fixWallCollosion() {
         sf::FloatRect wall = this->walls[i]->getBounds();
         sf::FloatRect player = this->bomberMan->getBounds();
         std::string direction = this->bomberMan->getDirection();
-        if(abs(wall.top - player.top) >= wall.width || abs(wall.left - player.left) >= wall.width)
+        if(abs(wall.top - player.top) >= wall.width - 2 || abs(wall.left - player.left) >= wall.width - 2)
             continue;
         if (direction == "Up" || direction == "Down") {
-                    float new_y = player.top + (wall.width - abs(player.top - wall.top)) *
+                    float new_y = player.top + (-2 + wall.width - abs(player.top - wall.top)) *
                                                ((player.top - wall.top) / abs(player.top - wall.top));
                     this->bomberMan->setPosition((player.left), (new_y));
 
         }
         else if (direction == "Right" || direction == "Left") {
-                    float new_x = player.left + (wall.width - abs(player.left - wall.left)) *
+                    float new_x = player.left + (-2 + wall.width - abs(player.left - wall.left)) *
                                                 ((player.left - wall.left) / abs(player.left - wall.left));
                     this->bomberMan->setPosition((new_x), (player.top));
         }
@@ -307,6 +307,7 @@ void Game::tickTokExplode() {
             float y_b = bombs[i]->getBounds().top;
             std::vector<sf::Vector2f> positions  = FindExplodedBlocks({x_b,y_b});
             wallExplosion(positions);
+            bombermanExplosion(positions);
             delete bombs[i];
             bombs.erase(bombs.begin() + i);
 
@@ -318,11 +319,13 @@ std::vector<sf::Vector2f> Game::FindExplodedBlocks(sf::Vector2f bomb) {
 
     std::vector<sf::Vector2f> positions;
 
+    sf::Vector2f pos0 = {bomb.x ,bomb.y};
     sf::Vector2f pos1 = {bomb.x - blockSize,bomb.y};
     sf::Vector2f pos2 = {bomb.x + blockSize,bomb.y};
     sf::Vector2f pos3 = {bomb.x ,bomb.y - blockSize};
     sf::Vector2f pos4 = {bomb.x ,bomb.y + blockSize};
 
+    positions.push_back(pos0);
     positions.push_back(pos1);
     positions.push_back(pos2);
     positions.push_back(pos3);
@@ -343,6 +346,16 @@ void Game::wallExplosion(std::vector<sf::Vector2f> positions) {
                 walls.erase(walls.begin() + i);
             }
         }
+    }
+}
+
+void Game::bombermanExplosion(std::vector<sf::Vector2f> positions) {
+    sf::Vector2f boyBlock = calcBombPos();
+    for (int i = 0; i < positions.size(); ++i) {
+       if(boyBlock.x == positions[i].x && boyBlock.y == positions[i].y){
+           this->bomberMan->decreaselife();
+           std::cout << this->bomberMan->getLivesRemain() << std::endl;
+       }
     }
 }
 

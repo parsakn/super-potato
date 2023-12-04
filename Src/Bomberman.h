@@ -20,7 +20,7 @@ private:
     float movementSpeed;
     std::string movementDirection;
 
-    int livesMax;
+    int lives;
 
     //Private functions
     void initVariables();
@@ -37,6 +37,7 @@ public:
     //Accessors
     const sf::FloatRect getBounds() const;
     std::string getDirection();
+    int getLivesRemain();
 
     //Modifies
     void setPosition(const float x, const float y);
@@ -47,6 +48,7 @@ public:
     void move(const float dirX, const float dirY);
     void update();
     void render(sf::RenderTarget& target);
+    void decreaselife();
 
 
 

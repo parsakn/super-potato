@@ -1,7 +1,7 @@
 #include "Bomberman.h"
 
 void Bomberman::initVariables() {
-    this->livesMax = MAX_LIVES;
+    this->lives = MAX_LIVES;
     this->movementSpeed = 2.0f;
 }
 
@@ -89,6 +89,14 @@ const sf::FloatRect Bomberman::getBounds() const {
 
 std::string Bomberman::getDirection() {
     return this->movementDirection;
+}
+
+void Bomberman::decreaselife() {
+    this->lives = this->lives - 1;
+}
+
+int Bomberman::getLivesRemain() {
+    return this->lives;
 }
 
 

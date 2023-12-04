@@ -69,6 +69,7 @@ public:
     void update();
     void updateInput();
     void wallExplosion(std::vector<sf::Vector2f> positions);
+    void bombermanExplosion(std::vector<sf::Vector2f> positions);
     void updateBoundsCollision();
     void fixWallCollosion();
     void render();
