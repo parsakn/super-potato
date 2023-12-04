@@ -116,6 +116,7 @@ void Game::update() {
     for (int j = 0; j < bombs.size(); ++j) {
         bombs[j]->update();
     }
+    this->updateKey();
     tickTokExplode();
 
 }
@@ -224,7 +225,6 @@ void Game::updateInput() {
         this->bomberMan->changeDirection("Right");
         this->bomberMan->move(1.f, 0.f);
         this->fixWallCollosion();
-
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up )) {
         this->bomberMan->changeDirection("Up");
@@ -413,6 +413,37 @@ std::vector<int> Game::getKeysIndex() {
     output.push_back(wall_type_B[var3]);
     return output;
 }
+
+void Game::updateKey() {
+
+
+    for (int i = 0; i <keys.size(); i++) {
+        sf::FloatRect key = this->keys[i]->getBounds();
+        sf::FloatRect player = this->bomberMan->getBounds();
+        if(abs(key.top - player.top) <= key.width-3  && abs(key.left - player.left) <= key.width-3 ) {
+            for (int i = 0; i < keys.size(); ++i) {
+                    float key_X = this->keys[i]->getBounds().left;
+                    float key_Y = this->keys[i]->getBounds().top;
+                    if(key_X == key.left && key_Y == key.top){
+                        this->plusKeyCollectedByOne();
+                        delete keys[i];
+                        keys.erase(keys.begin() + i);
+                        std::cout<< this->getKeyCollected()<<"\n";
+                }
+            }
+        }
+
+    }
+}
+
+int Game::getKeyCollected() {
+    return keyCollected;
+}
+
+void Game::plusKeyCollectedByOne() {
+    keyCollected++;
+}
+
 
 
 

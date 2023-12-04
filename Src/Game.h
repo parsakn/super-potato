@@ -56,6 +56,7 @@ private:
 
     //Variables
     int bombMaxCount;
+    int keyCollected=0;
 
 
 
@@ -67,6 +68,8 @@ public:
     ~Game();
 
     //Functions
+    int getKeyCollected();
+    void plusKeyCollectedByOne();
     void bombing();
     void tickTokExplode();
     void updatePollEvents();
@@ -82,6 +85,7 @@ public:
     void readmap();
     std::vector<int> getKeysIndex();
     sf::Vector2f calcBombPos();
+    void updateKey();
     std::vector<sf::Vector2f> FindExplodedBlocks(sf::Vector2f bomb);
 
 };
