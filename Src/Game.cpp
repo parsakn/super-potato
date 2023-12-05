@@ -134,6 +134,7 @@ void Game::run() {
 void Game::update() {
     this->updateInput();
     this->updateBoundsCollision();
+    this->updateEnemiesBomberManCollosion();
     this->updateEnemiesBoundsCollosion();
     this->fixWallCollosion();
     this->bomberMan->update();
@@ -144,7 +145,8 @@ void Game::update() {
        enemies[t]->update();
     }
     this->updateKey();
-    tickTokExplode();
+    this->tickTokExplode();
+
 
 }
 
@@ -506,6 +508,17 @@ void Game::enemyExplosion(std::vector<sf::Vector2f> positions) {
             }
         }
 
+    }
+}
+
+void Game::updateEnemiesBomberManCollosion() {
+    for (int i = 0; i < enemies.size(); ++i) {
+        if (enemies[i]->getsprite().getGlobalBounds().intersects(this->bomberMan->getSprite().getGlobalBounds())){
+            delete enemies[i];
+            enemies.erase(enemies.begin() + i);
+            this->bomberMan->loseLife();
+            std::cout << this->bomberMan->getLivesRemain() << std::endl;
+        }
     }
 }
 

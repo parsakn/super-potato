@@ -43,6 +43,7 @@ public:
     std::string getDirection();
     int getLivesRemain();
     bool getIsHide();
+    sf::Sprite getSprite();
 
     //Modifies
     void setPosition(const float x, const float y);

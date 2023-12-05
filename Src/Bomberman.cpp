@@ -135,5 +135,9 @@ bool Bomberman::getIsHide() {
     return this->isHide;
 }
 
+sf::Sprite Bomberman::getSprite() {
+    return this->sprite;
+}
+
 
 

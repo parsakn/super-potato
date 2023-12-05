@@ -84,6 +84,7 @@ public:
     void updateInput();
     void updateBoundsCollision();
     void updateEnemiesBoundsCollosion();
+    void updateEnemiesBomberManCollosion();
     void updateKey();
     void wallExplosion(std::vector<sf::Vector2f> positions);
     void bombermanExplosion(std::vector<sf::Vector2f> positions);
