@@ -52,3 +52,7 @@ char Wall::getType() {
     return this->type;
 }
 
+sf::Sprite Wall::getsprite() {
+    return this->sprite;
+}
+
