@@ -20,7 +20,18 @@ const std::string MAP_TXTFILE_ADDRESS = "/home/parsa/CLionProjects/BomberMan_V5/
 const std::string KEY_1_TXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/key.png";
 const std::string KEY_2_TXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/key2.png";
 const std::string KEY_3_TXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/key3.png";
+const std::string ENEMY_UP_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/girl/up.png";
+const std::string ENEMY_DOWN_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/girl/down-stay.png";
+const std::string ENEMY_RIGHT_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/girl/right.png";
+const std::string ENEMY_LEFT_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/girl/left.png";
+
+
+
 
 const int MAX_LIVES = 3;
 const int MAX_BOMBS = 3;
+const int MAX_LOSING_LIFE_COOLDOWN=80;
+
+const int BLINK_RATE=16;
+
 #endif //BOMBERMAN_V5_MANUAL_H
