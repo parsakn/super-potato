@@ -136,6 +136,7 @@ void Game::update() {
     this->updateBoundsCollision();
     this->updateEnemiesBoundsCollosion();
     this->fixWallCollosion();
+    this->bomberMan->update();
     for (int j = 0; j < bombs.size(); ++j) {
         bombs[j]->update();
     }
@@ -182,7 +183,8 @@ void Game::render() {
         enemies[x]->render(*this->window);
     }
 
-    this->bomberMan->render(*this->window);
+    if (!this->bomberMan->getIsHide())
+        this->bomberMan->render(*this->window);
 
     this->window->display();
 
@@ -410,7 +412,7 @@ void Game::bombermanExplosion(std::vector<sf::Vector2f> positions) {
     sf::Vector2f boyBlock = calcBombPos();
     for (int i = 0; i < positions.size(); ++i) {
        if(boyBlock.x == positions[i].x && boyBlock.y == positions[i].y){
-           this->bomberMan->decreaselife();
+           this->bomberMan->loseLife();
            std::cout << this->bomberMan->getLivesRemain() << std::endl;
        }
     }

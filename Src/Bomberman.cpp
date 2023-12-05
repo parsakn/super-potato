@@ -45,6 +45,7 @@ Bomberman::Bomberman() {
 Bomberman::~Bomberman() {
 
 }
+
 void Bomberman::render(sf::RenderTarget &target) {
     target.draw(this->sprite);
 }
