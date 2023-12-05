@@ -23,4 +23,6 @@ const std::string KEY_3_TXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/ke
 
 const int MAX_LIVES = 3;
 const int MAX_BOMBS = 3;
+const int MAX_LOSING_LIFE_COOLDOWN = 80;
+const int BLINK_RATE = 16;
 #endif //BOMBERMAN_V5_MANUAL_H
