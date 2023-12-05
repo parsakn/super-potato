@@ -73,6 +73,28 @@ void Game::initWalls() {
     }
 }
 
+void Game::initEnemies() {
+
+    for (int i = 0; i < map.size(); ++i) {
+        for (int j = 0; j < map[i].size(); ++j) {
+            if (map[i][j] == 'V'){
+                this->enemies.push_back(new Enemy('H'));
+                float text_x = enemies[enemies.size() - 1]->getsprite().getTexture()->getSize().x;
+                float text_y = enemies[enemies.size() - 1]->getsprite().getTexture()->getSize().y;
+                enemies[enemies.size() - 1]->setPosition(j * blockSize,i * blockSize);
+                enemies[enemies.size() - 1]->setScale((blockSize / text_x) , (blockSize / text_y));
+            }
+            if (map[i][j] == 'H'){
+                this->enemies.push_back(new Enemy('V'));
+                float text_x = enemies[enemies.size() - 1]->getsprite().getTexture()->getSize().x;
+                float text_y = enemies[enemies.size() - 1]->getsprite().getTexture()->getSize().y;
+                enemies[enemies.size() - 1]->setPosition(j * blockSize,i * blockSize);
+                enemies[enemies.size() - 1]->setScale((blockSize / text_x) , (blockSize / text_y));
+            }
+        }
+    }
+}
+
 void Game::initKeys() {
 
 
@@ -112,13 +134,17 @@ void Game::run() {
 void Game::update() {
     this->updateInput();
     this->updateBoundsCollision();
+    this->updateEnemiesBoundsCollosion();
     this->fixWallCollosion();
     for (int j = 0; j < bombs.size(); ++j) {
         bombs[j]->update();
     }
+    for (int t = 0; t < enemies.size(); ++t) {
+       enemies[t]->update();
+    }
     this->updateKey();
     tickTokExplode();
-    this->bomberMan->update();
+
 }
 
 void Game::renderGrass() {
@@ -152,9 +178,11 @@ void Game::render() {
         bombs[j]->render(*this->window);
     }
 
+    for (int x = 0; x < enemies.size(); ++x) {
+        enemies[x]->render(*this->window);
+    }
 
-    if(!this->bomberMan->getIsHide())
-        this->bomberMan->render(*this->window);
+    this->bomberMan->render(*this->window);
 
     this->window->display();
 
@@ -193,6 +221,7 @@ Game::Game() {
     this->initGrassSprite();
     this->initPlayer();
     this->initWalls();
+    this->initEnemies();
     this->initKeys();
 
 
@@ -381,10 +410,8 @@ void Game::bombermanExplosion(std::vector<sf::Vector2f> positions) {
     sf::Vector2f boyBlock = calcBombPos();
     for (int i = 0; i < positions.size(); ++i) {
        if(boyBlock.x == positions[i].x && boyBlock.y == positions[i].y){
-           if(this->bomberMan->canLoseLife()) {
-               this->bomberMan->loseLife();
-               std::cout << this->bomberMan->getLivesRemain() << std::endl;
-           }
+           this->bomberMan->decreaselife();
+           std::cout << this->bomberMan->getLivesRemain() << std::endl;
        }
     }
 }
@@ -445,6 +472,24 @@ int Game::getKeyCollected() {
 void Game::plusKeyCollectedByOne() {
     keyCollected++;
 }
+
+void Game::updateEnemiesBoundsCollosion() {
+    for (int i = 0; i < enemies.size(); ++i) {
+        for (int j = 0; j < walls.size(); ++j) {
+            if (enemies[i]->getsprite().getGlobalBounds().intersects(walls[j]->getsprite().getGlobalBounds())){
+                if (enemies[i]->getDirection() == "Right"){enemies[i]->changeDirection("Left");}
+                else if (enemies[i]->getDirection() == "Left"){enemies[i]->changeDirection("Right");}
+                else if (enemies[i]->getDirection() == "Up"){enemies[i]->changeDirection("Down");}
+                else if (enemies[i]->getDirection() == "Down"){enemies[i]->changeDirection("Up");}
+            }
+            if (enemies[i]->getBounds().left <= 0){enemies[i]->changeDirection("Right");}
+            if (enemies[i]->getBounds().top <= 0){enemies[i]->changeDirection("Down");}
+            if (enemies[i]->getBounds().left + enemies[i]->getBounds().width >= windowWidth){enemies[i]->changeDirection("Left");}
+            if (enemies[i]->getBounds().left + enemies[i]->getBounds().height >= windowHeight){enemies[i]->changeDirection("Up");}
+        }
+    }
+}
+
 
 
 

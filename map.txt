@@ -1,8 +1,8 @@
                   PP
-                  PP
-            B     PP
-             B    PP
-            B     PP
+      B           PP
+      B     B     PP
+      V      B    PP
+         V  B     PP
                   PP
                   PP
 PPPPPPPPPPPPPP  BBPP
@@ -11,8 +11,8 @@ PPPPPPPPPPPPPP  BBPP
                   PP
                   PP
       V           PP
-                  PP
-H                 PP
+            V     PP
+H          H      PP
                   PP
                   PP
 PPPPPPPPPPPPPP  BBPP

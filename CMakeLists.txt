@@ -14,7 +14,9 @@ add_executable(BomberMan_V5 Src/main.cpp
         Src/Bomb.cpp
         Src/Bomb.h
         Src/Key.cpp
-        Src/Key.h)
+        Src/Key.h
+        Src/Enemy.cpp
+        Src/Enemy.h)
 
 
 

@@ -10,8 +10,9 @@
 #include "Wall.h"
 #include "Bomb.h"
 #include "Key.h"
+#include "Enemy.h"
 
-///commendxvkm
+
 
 class Game {
 private:
@@ -34,6 +35,9 @@ private:
     int numBlockY;
     int blockSize;
 
+    //Enemies
+    std::vector<Enemy*> enemies;
+
     //Bombs
     std::vector<Bomb*> bombs;
 
@@ -49,6 +53,7 @@ private:
     void initGrassSprite();
     void initVariables();
     void initPlayer();
+    void initEnemies();
     void initWalls();
     void initKeys();
     void initMapSpecifications();
@@ -72,20 +77,21 @@ public:
     void plusKeyCollectedByOne();
     void bombing();
     void tickTokExplode();
-    void updatePollEvents();
     void run();
     void update();
+    void updatePollEvents();
     void updateInput();
+    void updateBoundsCollision();
+    void updateEnemiesBoundsCollosion();
+    void updateKey();
     void wallExplosion(std::vector<sf::Vector2f> positions);
     void bombermanExplosion(std::vector<sf::Vector2f> positions);
-    void updateBoundsCollision();
     void fixWallCollosion();
     void render();
     void renderGrass();
     void readmap();
     std::vector<int> getKeysIndex();
     sf::Vector2f calcBombPos();
-    void updateKey();
     std::vector<sf::Vector2f> FindExplodedBlocks(sf::Vector2f bomb);
 
 };

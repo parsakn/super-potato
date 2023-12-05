@@ -19,6 +19,7 @@ public:
 
     //Accessors
     const sf::FloatRect getBounds() const;
+    sf::Sprite getsprite();
     char getType();
 
 
