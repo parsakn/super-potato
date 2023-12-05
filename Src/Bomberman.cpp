@@ -1,6 +1,9 @@
 #include "Bomberman.h"
 
 void Bomberman::initVariables() {
+    this->isLosingLife = false;
+    this->losingLiveCoolDown = 0;
+    this->isHide=false;
     this->lives = MAX_LIVES;
     this->movementSpeed = 2.0f;
 }
@@ -42,11 +45,6 @@ Bomberman::Bomberman() {
 Bomberman::~Bomberman() {
 
 }
-
-void Bomberman::update() {
-
-}
-
 void Bomberman::render(sf::RenderTarget &target) {
     target.draw(this->sprite);
 }
@@ -91,14 +89,50 @@ std::string Bomberman::getDirection() {
     return this->movementDirection;
 }
 
-void Bomberman::decreaselife() {
-    this->lives = this->lives - 1;
+void Bomberman::loseLife() {
+    if(this->canLoseLife()) {
+        this->lives = this->lives - 1;
+        isLosingLife = true;
+    }
 }
 
 int Bomberman::getLivesRemain() {
     return this->lives;
 }
 
+
+
+bool Bomberman::canLoseLife() {
+    if(this->isLosingLife)
+        return false;
+    else
+        return true;
+}
+
+void Bomberman::update() {
+   if(this->isLosingLife)
+       this->respawning();
+
+}
+
+void Bomberman::respawning() {
+    this->losingLiveCoolDown = (this->losingLiveCoolDown + 1);
+    if(this->losingLiveCoolDown >= MAX_LOSING_LIFE_COOLDOWN) {
+        this->losingLiveCoolDown=0;
+        this->isLosingLife = false;
+        this->isHide=false;
+    }
+    else {
+        if ((this->losingLiveCoolDown / (MAX_LOSING_LIFE_COOLDOWN/BLINK_RATE))%2 == 0 )
+            this->isHide = true;
+        if ((this->losingLiveCoolDown / (MAX_LOSING_LIFE_COOLDOWN/BLINK_RATE))%2 == 1 )
+            this->isHide = false;
+    }
+}
+
+bool Bomberman::getIsHide() {
+    return this->isHide;
+}
 
 
 

@@ -118,7 +118,7 @@ void Game::update() {
     }
     this->updateKey();
     tickTokExplode();
-
+    this->bomberMan->update();
 }
 
 void Game::renderGrass() {
@@ -153,8 +153,8 @@ void Game::render() {
     }
 
 
-
-    this->bomberMan->render(*this->window);
+    if(!this->bomberMan->getIsHide())
+        this->bomberMan->render(*this->window);
 
     this->window->display();
 
@@ -381,8 +381,10 @@ void Game::bombermanExplosion(std::vector<sf::Vector2f> positions) {
     sf::Vector2f boyBlock = calcBombPos();
     for (int i = 0; i < positions.size(); ++i) {
        if(boyBlock.x == positions[i].x && boyBlock.y == positions[i].y){
-           this->bomberMan->decreaselife();
-           std::cout << this->bomberMan->getLivesRemain() << std::endl;
+           if(this->bomberMan->canLoseLife()) {
+               this->bomberMan->loseLife();
+               std::cout << this->bomberMan->getLivesRemain() << std::endl;
+           }
        }
     }
 }

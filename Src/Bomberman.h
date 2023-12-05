@@ -21,6 +21,10 @@ private:
     std::string movementDirection;
 
     int lives;
+    bool isLosingLife;
+    bool isHide;
+    int losingLiveCoolDown;
+
 
     //Private functions
     void initVariables();
@@ -38,6 +42,7 @@ public:
     const sf::FloatRect getBounds() const;
     std::string getDirection();
     int getLivesRemain();
+    bool getIsHide();
 
     //Modifies
     void setPosition(const float x, const float y);
@@ -48,7 +53,9 @@ public:
     void move(const float dirX, const float dirY);
     void update();
     void render(sf::RenderTarget& target);
-    void decreaselife();
+    void loseLife();
+    bool canLoseLife();
+    void respawning();
 
 
 
