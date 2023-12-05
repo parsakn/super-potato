@@ -11,6 +11,7 @@
 #include "Bomb.h"
 #include "Key.h"
 #include "Enemy.h"
+#include "cmath"
 
 
 
@@ -86,6 +87,7 @@ public:
     void updateKey();
     void wallExplosion(std::vector<sf::Vector2f> positions);
     void bombermanExplosion(std::vector<sf::Vector2f> positions);
+    void enemyExplosion(std::vector<sf::Vector2f> positions);
     void fixWallCollosion();
     void render();
     void renderGrass();

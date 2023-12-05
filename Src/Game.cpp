@@ -367,6 +367,7 @@ void Game::tickTokExplode() {
             std::vector<sf::Vector2f> positions  = FindExplodedBlocks({x_b,y_b});
             wallExplosion(positions);
             bombermanExplosion(positions);
+            enemyExplosion(positions);
             delete bombs[i];
             bombs.erase(bombs.begin() + i);
 
@@ -489,6 +490,22 @@ void Game::updateEnemiesBoundsCollosion() {
             if (enemies[i]->getBounds().left + enemies[i]->getBounds().width >= windowWidth){enemies[i]->changeDirection("Left");}
             if (enemies[i]->getBounds().left + enemies[i]->getBounds().height >= windowHeight){enemies[i]->changeDirection("Up");}
         }
+    }
+}
+
+void Game::enemyExplosion(std::vector<sf::Vector2f> positions) {
+    for (int i = 0; i < enemies.size(); ++i) {
+        float new_X =  enemies[i]->getBounds().left + ((blockSize)/2);
+        float new_Y = enemies[i]->getBounds().top + ((blockSize)/2);
+        float enemy_x = new_X - ( static_cast<int>(floor(new_X)) % static_cast<int>(blockSize));
+        float enemy_y = new_Y - ( static_cast<int>(floor(new_Y)) % static_cast<int>(blockSize));
+        for (int j = 0; j < positions.size(); ++j) {
+            if(enemy_x == positions[j].x && enemy_y == positions[j].y){
+                delete enemies[i];
+                enemies.erase(enemies.begin() + i);
+            }
+        }
+
     }
 }
 
