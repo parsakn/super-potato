@@ -15,6 +15,6 @@ PPPPPPPPPPPPPP  BBPP
 H          H      PP
                   PP
                   PP
-PPPPPPPPPPPPPP  BBPP
+PPPPPPPPBBB     BBPP
                 PPPP
 PPPPPPPPPPPPPP  BBPP

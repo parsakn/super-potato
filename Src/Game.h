@@ -65,7 +65,9 @@ private:
     void initWalls();
     void initKeys();
     void initStatusBar();
+    void initEndGameStatus();
     void initMapSpecifications();
+    void initEndGameTexts();
 
 
     //Variables
@@ -73,8 +75,15 @@ private:
     int keyCollected;
 
     //Status
+    sf::Font font;
     bool wonGame;
     bool LoseGame;
+    bool isReachedDoor;
+
+    //EndGame
+    sf::RectangleShape endGameStatus;
+    sf::Text wonGameMessage;
+    sf::Text loseGameMessage;
 
 
 
@@ -100,6 +109,7 @@ public:
     void updateKey();
     void updateDoor();
     void updatelapsedseconds();
+    void updateGameStatus();
     void updatestatusbar();
     void wallExplosion(std::vector<sf::Vector2f> positions);
     void bombermanExplosion(std::vector<sf::Vector2f> positions);

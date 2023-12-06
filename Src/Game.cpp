@@ -50,6 +50,9 @@ void Game::initStatusBar() {
 void Game::initVariables() {
     this->bombMaxCount = MAX_BOMBS;
     this->keyCollected = 0;
+    this->isReachedDoor = false;
+    this->wonGame = false;
+    this->LoseGame = false;
 }
 
 void Game::initWalls() {
@@ -157,24 +160,26 @@ void Game::run() {
 }
 
 void Game::update() {
-    this->updateInput();
-    this->updateBoundsCollision();
-    this->updateEnemiesBomberManCollosion();
-    this->updateEnemiesBoundsCollosion();
-    this->fixWallCollosion();
-    this->bomberMan->update();
-    for (int j = 0; j < bombs.size(); ++j) {
-        bombs[j]->update();
+    if (!wonGame && !LoseGame) {
+        this->updateInput();
+        this->updateBoundsCollision();
+        this->updateEnemiesBomberManCollosion();
+        this->updateEnemiesBoundsCollosion();
+        this->fixWallCollosion();
+        this->bomberMan->update();
+        for (int j = 0; j < bombs.size(); ++j) {
+            bombs[j]->update();
+        }
+        for (int t = 0; t < enemies.size(); ++t) {
+            enemies[t]->update();
+        }
+        this->updateKey();
+        this->updateDoor();
+        this->tickTokExplode();
+        this->updatelapsedseconds();
+        this->updatestatusbar();
+        this->updateGameStatus();
     }
-    for (int t = 0; t < enemies.size(); ++t) {
-       enemies[t]->update();
-    }
-    this->updateKey();
-    this->updateDoor();
-    this->tickTokExplode();
-    this->updatelapsedseconds();
-    this->updatestatusbar();
-
 
 }
 
@@ -193,34 +198,47 @@ void Game::renderGrass() {
 
 void Game::render() {
 
-    this->window->clear();
+    if (!wonGame && !LoseGame) {
+        this->window->clear();
 
-    this->renderGrass();
+        this->renderGrass();
 
-    this->door->render(*this->window);
+        if (!isReachedDoor)
+            this->door->render(*this->window);
 
-    for (int t = 0; t < keys.size(); ++t) {
-        keys[t]->render(*this->window);
+        for (int t = 0; t < keys.size(); ++t) {
+            keys[t]->render(*this->window);
+        }
+
+        for (int i = 0; i < walls.size(); ++i) {
+            walls[i]->render(*this->window);
+        }
+
+        for (int j = 0; j < bombs.size(); ++j) {
+            bombs[j]->render(*this->window);
+        }
+
+        for (int x = 0; x < enemies.size(); ++x) {
+            enemies[x]->render(*this->window);
+        }
+
+        if (!this->bomberMan->getIsHide())
+            this->bomberMan->render(*this->window);
+
+        this->statusbar->render(*this->window);
+
+        this->window->display();
     }
-
-    for (int i = 0; i < walls.size(); ++i) {
-        walls[i]->render(*this->window);
+    if (wonGame || LoseGame){
+        this->window->clear();
+        //this->window->draw(endGameStatus);
+        if (wonGame){
+            this->window->draw(this->wonGameMessage);
+        } else{
+            this->window->draw(this->loseGameMessage);
+        }
+        this->window->display();
     }
-
-    for (int j = 0; j < bombs.size(); ++j) {
-        bombs[j]->render(*this->window);
-    }
-
-    for (int x = 0; x < enemies.size(); ++x) {
-        enemies[x]->render(*this->window);
-    }
-
-    if (!this->bomberMan->getIsHide())
-        this->bomberMan->render(*this->window);
-
-    this->statusbar->render(*this->window);
-
-    this->window->display();
 
 }
 
@@ -261,6 +279,8 @@ Game::Game() {
     this->initKeys();
     this->initDoor();
     this->initStatusBar();
+    this->initEndGameStatus();
+    this->initEndGameTexts();
 
 
 }
@@ -360,8 +380,9 @@ void Game::updateKey() {
 void Game::updateDoor() {
     sf::FloatRect doorxy = this->door->getBounds();
     sf::FloatRect player = this->bomberMan->getBounds();
-    if(abs(doorxy.top - player.top) <= doorxy.width-3  && abs(doorxy.left - player.left) <= doorxy.width-3 && keyCollected == 3 ){
+    if(abs(doorxy.top - player.top) <= doorxy.width-3  && abs(doorxy.left - player.left) <= doorxy.width-3 && keyCollected == 3 && !isReachedDoor){
         delete this->door;
+        this->isReachedDoor = true;
         std::cout << "door collected" << std::endl;
     }
 
@@ -577,6 +598,41 @@ void Game::updatestatusbar() {
     this->statusbar->setLives(this->bomberMan->getLivesRemain());
     this->statusbar->setkeys(keyCollected);
     this->statusbar->updateLivesBar();
+}
+
+void Game::updateGameStatus() {
+    if(isReachedDoor && elapsedSeconds < 120.f){
+        this->wonGame = true;
+        std::cout << "wooon" << std::endl;
+    }
+    if (elapsedSeconds > 120.f || this->bomberMan->getLivesRemain() == 0){
+        this->LoseGame = true;
+        std::cout << "looose" << std::endl;
+    }
+}
+
+void Game::initEndGameStatus() {
+    endGameStatus.setSize(sf::Vector2f(windowWidth , windowHeight + STATUSBARHEIGHT));
+    endGameStatus.setFillColor(sf::Color::White);
+    endGameStatus.setPosition(0, 0);
+}
+
+void Game::initEndGameTexts() {
+    if (!font.loadFromFile(FONT_TTF)) {
+        std::cerr << "Font loading failed!" << std::endl;
+    }
+
+    wonGameMessage.setFont(font);
+    wonGameMessage.setCharacterSize(23);
+    wonGameMessage.setFillColor(sf::Color::Green);
+    wonGameMessage.setPosition(0 ,  (windowHeight + STATUSBARHEIGHT - 100)/2);
+    wonGameMessage.setString("YOU AVOIDED HARAAM\n\nAND FOUND \n\nTHE PATH TO HEAVEN!!");
+
+    loseGameMessage.setFont(font);
+    loseGameMessage.setCharacterSize(23);
+    loseGameMessage.setFillColor(sf::Color::Red);
+    loseGameMessage.setPosition(0 ,  (windowHeight + STATUSBARHEIGHT - 100)/2);
+    loseGameMessage.setString("GIRLS DISTRACTED YOU \n\nSORRY LOSER!");
 }
 
 
