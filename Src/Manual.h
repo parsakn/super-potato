@@ -27,6 +27,7 @@ const std::string ENEMY_RIGHT_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Spr
 const std::string ENEMY_LEFT_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/girl/left.png";
 const std::string DOOR_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/Door.png";
 const std::string STATUSBAR_TXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/statusbar.png";
+const std::string FONT_TTF = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/spaceboy/SPACEBOY.TTF";
 
 
 const int MAX_LIVES = 3;
@@ -34,5 +35,13 @@ const int MAX_BOMBS = 3;
 const int MAX_LOSING_LIFE_COOLDOWN=80;
 
 const int BLINK_RATE=16;
+
+const int LIFELINE_XSIZE = 180;
+const int LIFELINE_YSIZE = 25;
+const int LIFELINEINITIALXPOS = (windowWidth / 2) - 50 ;
+const int LIFELINEINITIALYPOS = windowHeight + 5;
+
+const int INITIAL_KEYICON_X = windowWidth - 100;
+const int INITIAL_KEYICON_Y = windowHeight + 5;
 
 #endif //BOMBERMAN_V5_MANUAL_H

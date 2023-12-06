@@ -172,6 +172,8 @@ void Game::update() {
     this->updateKey();
     this->updateDoor();
     this->tickTokExplode();
+    this->updatelapsedseconds();
+    this->updatestatusbar();
 
 
 }
@@ -563,6 +565,18 @@ void Game::updateEnemiesBomberManCollosion() {
             std::cout << this->bomberMan->getLivesRemain() << std::endl;
         }
     }
+}
+
+void Game::updatelapsedseconds() {
+    this->elapsedSeconds = timer.getElapsedTime().asSeconds();
+
+}
+
+void Game::updatestatusbar() {
+    this->statusbar->updateCountdownText(120.f - this->elapsedSeconds);
+    this->statusbar->setLives(this->bomberMan->getLivesRemain());
+    this->statusbar->setkeys(keyCollected);
+    this->statusbar->updateLivesBar();
 }
 
 

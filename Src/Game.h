@@ -99,6 +99,8 @@ public:
     void updateEnemiesBomberManCollosion();
     void updateKey();
     void updateDoor();
+    void updatelapsedseconds();
+    void updatestatusbar();
     void wallExplosion(std::vector<sf::Vector2f> positions);
     void bombermanExplosion(std::vector<sf::Vector2f> positions);
     void enemyExplosion(std::vector<sf::Vector2f> positions);
@@ -110,6 +112,8 @@ public:
     sf::Vector2f calcBombPos();
     std::vector<sf::Vector2f> FindExplodedBlocks(sf::Vector2f bomb);
 
+    sf::Clock timer;
+    float elapsedSeconds;
 
 };
 
