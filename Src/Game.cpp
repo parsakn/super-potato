@@ -53,6 +53,7 @@ void Game::initVariables() {
     this->isReachedDoor = false;
     this->wonGame = false;
     this->LoseGame = false;
+    this->randomWallsB = getRandomWalls();
 }
 
 void Game::initWalls() {
@@ -126,8 +127,6 @@ void Game::initDoor() {
 void Game::initKeys() {
 
 
-    std::vector<int> randomIndexesOfBWalls = getKeysIndex();
-
     keys.push_back(new Key(1));
     keys.push_back(new Key(2));
     keys.push_back(new Key(3));
@@ -136,10 +135,24 @@ void Game::initKeys() {
         float text_x = keys[i]->getsprite().getTexture()->getSize().x;
         float text_y = keys[i]->getsprite().getTexture()->getSize().y;
         keys[i]->setScale((blockSize / text_x) , (blockSize / text_y));
-        sf::FloatRect wallbounds = walls[randomIndexesOfBWalls[i]]->getBounds();
+        sf::FloatRect wallbounds = walls[randomWallsB[i]]->getBounds();
         float wall_x = wallbounds.left;
         float wall_y = wallbounds.top;
         keys[i]->setPosition(wall_x,wall_y);
+    }
+}
+
+void Game::initPowerUps() {
+    powerUps.push_back(new PoweUps('L'));
+    powerUps.push_back(new PoweUps('S'));
+    for (int i = 0; i < powerUps.size(); ++i) {
+        float text_x = powerUps[i]->getBounds().width;
+        float text_y = powerUps[i]->getBounds().height;
+        powerUps[i]->setScale((blockSize / text_x) , (blockSize / text_y));
+        sf::FloatRect wallbounds = walls[randomWallsB[i + KEYS_NUMBER]]->getBounds();
+        float wall_x = wallbounds.left;
+        float wall_y = wallbounds.top;
+        powerUps[i]->setPosition(wall_x,wall_y);
     }
 }
 
@@ -174,6 +187,7 @@ void Game::update() {
             enemies[t]->update();
         }
         this->updateKey();
+        this->updatePowerUps();
         this->updateDoor();
         this->tickTokExplode();
         this->updatelapsedseconds();
@@ -208,6 +222,10 @@ void Game::render() {
 
         for (int t = 0; t < keys.size(); ++t) {
             keys[t]->render(*this->window);
+        }
+
+        for (int p = 0; p < powerUps.size(); ++p) {
+            powerUps[p]->render(*this->window);
         }
 
         for (int i = 0; i < walls.size(); ++i) {
@@ -270,13 +288,14 @@ Game::Game() {
     this->initWindow();
     this->readmap();
     this->initMapSpecifications();
-    this->initVariables();
     this->initGrassTexture();
     this->initGrassSprite();
     this->initPlayer();
     this->initWalls();
+    this->initVariables();
     this->initEnemies();
     this->initKeys();
+    this->initPowerUps();
     this->initDoor();
     this->initStatusBar();
     this->initEndGameStatus();
@@ -376,6 +395,28 @@ void Game::updateKey() {
 
     }
 }
+
+void Game::updatePowerUps() {
+    for (int i = 0; i <powerUps.size(); i++) {
+        sf::FloatRect power = this->powerUps[i]->getBounds();
+        sf::FloatRect player = this->bomberMan->getBounds();
+        if(abs(power.top - player.top) <= power.width - 3 && abs(power.left - player.left) <= power.width - 3 ) {
+            for (int i = 0; i < powerUps.size(); ++i) {
+                float powerx = this->powerUps[i]->getBounds().left;
+                float powery = this->powerUps[i]->getBounds().top;
+                if(powerx == power.left && powery == power.top){
+                    if (powerUps[i]->getType() == 'S'){bomberMan->doubleMovementSpeed();}
+                    if(powerUps[i]->getType() == 'L'){bomberMan->ExtraLife();}
+                    delete powerUps[i];
+                    powerUps.erase(powerUps.begin() + i);
+
+                }
+            }
+        }
+
+    }
+}
+
 
 void Game::updateDoor() {
     sf::FloatRect doorxy = this->door->getBounds();
@@ -509,30 +550,31 @@ void Game::bombermanExplosion(std::vector<sf::Vector2f> positions) {
     }
 }
 
-std::vector<int> Game::getKeysIndex() {
+std::vector<int> Game::getRandomWalls() {
     std::vector<int> output;
     std::vector<int> wall_type_B;
-    for(int i=0;i<this->walls.size();i++){
-        if(this->walls[i]->getType()=='B')
+
+
+    for (int i = 0; i < this->walls.size(); ++i) {
+        if (this->walls[i]->getType() == 'B') {
             wall_type_B.push_back(i);
-    }
-    std::srand(time(0));
-    int var1=rand()%wall_type_B.size();
-    int var2=rand()%wall_type_B.size();
-    int var3=rand()%wall_type_B.size();
-    if(var1==var2){
-        while (var1==var2){
-            var2=rand()%wall_type_B.size();
         }
     }
-    if(var3==var1 || var3==var2){
-        while(var3==var1 || var3==var2){
-            var3=rand()%wall_type_B.size();
-        }
+
+
+    if (wall_type_B.size() < POWERUP_NUMBERS + KEYS_NUMBER) {
+
+        return output;
     }
-    output.push_back(wall_type_B[var1]);
-    output.push_back(wall_type_B[var2]);
-    output.push_back(wall_type_B[var3]);
+
+
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(wall_type_B.begin(), wall_type_B.end(), g);
+
+
+    output.assign(wall_type_B.begin(), wall_type_B.begin() + POWERUP_NUMBERS + KEYS_NUMBER);
+
     return output;
 }
 
@@ -634,6 +676,8 @@ void Game::initEndGameTexts() {
     loseGameMessage.setPosition(0 ,  (windowHeight + STATUSBARHEIGHT - 100)/2);
     loseGameMessage.setString("GIRLS DISTRACTED YOU \n\nSORRY LOSER!");
 }
+
+
 
 
 

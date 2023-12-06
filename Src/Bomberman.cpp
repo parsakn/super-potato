@@ -139,5 +139,19 @@ sf::Sprite Bomberman::getSprite() {
     return this->sprite;
 }
 
+float Bomberman::getMovementSpeed() {
+    return movementSpeed;
+}
+
+void Bomberman::doubleMovementSpeed() {
+    this->movementSpeed = this->movementSpeed * 2;
+}
+
+void Bomberman::ExtraLife() {
+    if(this->lives < 3){
+        this->lives = this->lives + 1;
+    }
+}
+
 
 

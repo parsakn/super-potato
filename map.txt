@@ -1,19 +1,19 @@
-                  PP
-      B           PP
-      B     B     PP
-      V      B    PP
-         V  B     PP
+      PP          PP
+      BP           PP
+      BP     B     PP
+      BBB    B    PP
+BBBBBBBP V  B     PP
    D              PP
                   PP
+PPPPBBBPPPPPPP  BBPP
+   BBB    B     PPPP
 PPPPPPPPPPPPPP  BBPP
-                PPPP
-PPPPPPPPPPPPPP  BBPP
                   PP
-                  PP
-      V           PP
-            V     PP
-H          H      PP
-                  PP
+         PBPB     PP
+      V        P  PP
+            V  B  PP
+H          H   P  PP
+               B  PP
                   PP
 PPPPPPPPBBB     BBPP
                 PPPP

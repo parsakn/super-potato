@@ -14,6 +14,11 @@
 #include "cmath"
 #include "Door.h"
 #include "Statusbar.h"
+#include "PoweUps.h"
+#include <random>
+#include <algorithm>
+#include <iterator>
+#include <unordered_set>
 
 class Game {
 private:
@@ -48,6 +53,9 @@ private:
     //Keys
     std::vector<Key*> keys;
 
+    //Powerups
+    std::vector<PoweUps*> powerUps;
+
     //BomberMan
     Bomberman* bomberMan;
 
@@ -64,6 +72,7 @@ private:
     void initEnemies();
     void initWalls();
     void initKeys();
+    void initPowerUps();
     void initStatusBar();
     void initEndGameStatus();
     void initMapSpecifications();
@@ -73,6 +82,7 @@ private:
     //Variables
     int bombMaxCount;
     int keyCollected;
+    std::vector<int> randomWallsB;
 
     //Status
     sf::Font font;
@@ -107,6 +117,7 @@ public:
     void updateEnemiesBoundsCollosion();
     void updateEnemiesBomberManCollosion();
     void updateKey();
+    void updatePowerUps();
     void updateDoor();
     void updatelapsedseconds();
     void updateGameStatus();
@@ -118,7 +129,7 @@ public:
     void render();
     void renderGrass();
     void readmap();
-    std::vector<int> getKeysIndex();
+    std::vector<int> getRandomWalls();
     sf::Vector2f calcBombPos();
     std::vector<sf::Vector2f> FindExplodedBlocks(sf::Vector2f bomb);
 

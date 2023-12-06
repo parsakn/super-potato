@@ -28,6 +28,9 @@ const std::string ENEMY_LEFT_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Spri
 const std::string DOOR_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/Door.png";
 const std::string STATUSBAR_TXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/statusbar.png";
 const std::string FONT_TTF = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/spaceboy/SPACEBOY.TTF";
+const std::string LIFE_AID_TXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/LifeAid.png";
+const std::string SPEEDUP_TXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/speedup.png";
+
 
 
 const int MAX_LIVES = 3;
@@ -43,5 +46,8 @@ const int LIFELINEINITIALYPOS = windowHeight + 5;
 
 const int INITIAL_KEYICON_X = windowWidth - 100;
 const int INITIAL_KEYICON_Y = windowHeight + 5;
+
+const int KEYS_NUMBER = 3;
+const int POWERUP_NUMBERS = 2;
 
 #endif //BOMBERMAN_V5_MANUAL_H

@@ -21,6 +21,8 @@ add_executable(BomberMan_V5 Src/main.cpp
         Src/Door.h
         Src/Statusbar.cpp
         Src/Statusbar.h
+        Src/PoweUps.cpp
+        Src/PoweUps.h
 )
 
 
