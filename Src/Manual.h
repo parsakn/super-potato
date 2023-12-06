@@ -24,7 +24,7 @@ const std::string ENEMY_UP_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprite
 const std::string ENEMY_DOWN_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/girl/down-stay.png";
 const std::string ENEMY_RIGHT_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/girl/right.png";
 const std::string ENEMY_LEFT_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/girl/left.png";
-
+const std::string DOOR_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/Door.png";
 
 
 

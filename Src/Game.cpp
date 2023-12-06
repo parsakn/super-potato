@@ -95,6 +95,26 @@ void Game::initEnemies() {
     }
 }
 
+void Game::initDoor() {
+    for (int i = 0; i < map.size(); ++i) {
+        for (int j = 0; j < map[i].size(); ++j) {
+            if (map[i][j] == 'D'){
+                this->door = new Door();
+                float door_x = this->door->getsprite().getTexture()->getSize().x;
+                float door_y = this->door->getsprite().getTexture()->getSize().y;
+                this->door->setScale( blockSize/door_x  , blockSize/door_y);
+                this->door->setPosition(j*blockSize,i*blockSize);
+                walls.push_back(new Wall('B'));
+                walls[walls.size() - 1 ]->setPosition(j*blockSize,i*blockSize);
+                float wall_x =walls[walls.size() - 1]->getsprite().getTexture()->getSize().x;
+                float wall_y =walls[walls.size() - 1]->getsprite().getTexture()->getSize().y;
+                walls[walls.size() - 1]->setScale(blockSize/wall_x,blockSize/wall_y);
+
+            }
+        }
+    }
+}
+
 void Game::initKeys() {
 
 
@@ -169,6 +189,8 @@ void Game::render() {
 
     this->renderGrass();
 
+    this->door->render(*this->window);
+
     for (int t = 0; t < keys.size(); ++t) {
         keys[t]->render(*this->window);
     }
@@ -227,6 +249,7 @@ Game::Game() {
     this->initWalls();
     this->initEnemies();
     this->initKeys();
+    this->initDoor();
 
 
 }
@@ -521,6 +544,8 @@ void Game::updateEnemiesBomberManCollosion() {
         }
     }
 }
+
+
 
 
 

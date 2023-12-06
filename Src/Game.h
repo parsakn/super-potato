@@ -12,8 +12,7 @@
 #include "Key.h"
 #include "Enemy.h"
 #include "cmath"
-
-
+#include "Door.h"
 
 class Game {
 private:
@@ -48,8 +47,12 @@ private:
     //BomberMan
     Bomberman* bomberMan;
 
+    //Door
+    Door* door;
+
     //Private Functions
     void initWindow();
+    void initDoor();
     void initGrassTexture();
     void initGrassSprite();
     void initVariables();
