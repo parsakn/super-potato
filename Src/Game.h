@@ -13,6 +13,7 @@
 #include "Enemy.h"
 #include "cmath"
 #include "Door.h"
+#include "Statusbar.h"
 
 class Game {
 private:
@@ -34,6 +35,9 @@ private:
     int numBlocksX;
     int numBlockY;
     int blockSize;
+
+    //StatusBar
+    Statusbar* statusbar;
 
     //Enemies
     std::vector<Enemy*> enemies;
@@ -60,12 +64,17 @@ private:
     void initEnemies();
     void initWalls();
     void initKeys();
+    void initStatusBar();
     void initMapSpecifications();
 
 
     //Variables
     int bombMaxCount;
-    int keyCollected=0;
+    int keyCollected;
+
+    //Status
+    bool wonGame;
+    bool LoseGame;
 
 
 
@@ -89,6 +98,7 @@ public:
     void updateEnemiesBoundsCollosion();
     void updateEnemiesBomberManCollosion();
     void updateKey();
+    void updateDoor();
     void wallExplosion(std::vector<sf::Vector2f> positions);
     void bombermanExplosion(std::vector<sf::Vector2f> positions);
     void enemyExplosion(std::vector<sf::Vector2f> positions);
@@ -99,6 +109,7 @@ public:
     std::vector<int> getKeysIndex();
     sf::Vector2f calcBombPos();
     std::vector<sf::Vector2f> FindExplodedBlocks(sf::Vector2f bomb);
+
 
 };
 

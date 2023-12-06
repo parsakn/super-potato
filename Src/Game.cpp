@@ -3,7 +3,7 @@
 
 
 void Game::initWindow() {
-    this->window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight)
+    this->window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight + STATUSBARHEIGHT)
                 , "BomberMan-Game"
                 , sf::Style::Close | sf::Style::Titlebar);
 
@@ -43,8 +43,13 @@ void Game::initPlayer() {
     bomberMan->setScale((blockSize_f / grassSizeX) , (blockSize_f / grassSizeY));
 }
 
+void Game::initStatusBar() {
+    this->statusbar = new Statusbar;
+}
+
 void Game::initVariables() {
     this->bombMaxCount = MAX_BOMBS;
+    this->keyCollected = 0;
 }
 
 void Game::initWalls() {
@@ -165,6 +170,7 @@ void Game::update() {
        enemies[t]->update();
     }
     this->updateKey();
+    this->updateDoor();
     this->tickTokExplode();
 
 
@@ -210,6 +216,8 @@ void Game::render() {
     if (!this->bomberMan->getIsHide())
         this->bomberMan->render(*this->window);
 
+    this->statusbar->render(*this->window);
+
     this->window->display();
 
 }
@@ -250,6 +258,7 @@ Game::Game() {
     this->initEnemies();
     this->initKeys();
     this->initDoor();
+    this->initStatusBar();
 
 
 }
@@ -307,7 +316,7 @@ void Game::updateBoundsCollision() {
         this->bomberMan->setPosition(0.f, this->bomberMan->getBounds().top);
     }
 
-    else if (this->bomberMan->getBounds().left + this->bomberMan->getBounds().width >= this->window->getSize().x)
+    else if (this->bomberMan->getBounds().left + this->bomberMan->getBounds().width >= windowWidth)
     {
         this->bomberMan->setPosition(this->window->getSize().x - this->bomberMan->getBounds().width, this->bomberMan->getBounds().top);
     }
@@ -318,10 +327,43 @@ void Game::updateBoundsCollision() {
         this->bomberMan->setPosition(this->bomberMan->getBounds().left, 0.f);
     }
 
-    else if (this->bomberMan->getBounds().top + this->bomberMan->getBounds().height >= this->window->getSize().y)
+    else if (this->bomberMan->getBounds().top + this->bomberMan->getBounds().height >= windowHeight)
     {
-        this->bomberMan->setPosition(this->bomberMan->getBounds().left, this->window->getSize().y - this->bomberMan->getBounds().height);
+        this->bomberMan->setPosition(this->bomberMan->getBounds().left, windowHeight - this->bomberMan->getBounds().height);
     }
+}
+
+void Game::updateKey() {
+
+
+    for (int i = 0; i <keys.size(); i++) {
+        sf::FloatRect key = this->keys[i]->getBounds();
+        sf::FloatRect player = this->bomberMan->getBounds();
+        if(abs(key.top - player.top) <= key.width-3  && abs(key.left - player.left) <= key.width-3 ) {
+            for (int i = 0; i < keys.size(); ++i) {
+                float key_X = this->keys[i]->getBounds().left;
+                float key_Y = this->keys[i]->getBounds().top;
+                if(key_X == key.left && key_Y == key.top){
+                    this->plusKeyCollectedByOne();
+                    delete keys[i];
+                    keys.erase(keys.begin() + i);
+                    std::cout<< this->getKeyCollected()<<"\n";
+                }
+            }
+        }
+
+    }
+}
+
+void Game::updateDoor() {
+    sf::FloatRect doorxy = this->door->getBounds();
+    sf::FloatRect player = this->bomberMan->getBounds();
+    if(abs(doorxy.top - player.top) <= doorxy.width-3  && abs(doorxy.left - player.left) <= doorxy.width-3 && keyCollected == 3 ){
+        delete this->door;
+        std::cout << "door collected" << std::endl;
+    }
+
+
 }
 
 void Game::fixWallCollosion() {
@@ -471,28 +513,6 @@ std::vector<int> Game::getKeysIndex() {
     return output;
 }
 
-void Game::updateKey() {
-
-
-    for (int i = 0; i <keys.size(); i++) {
-        sf::FloatRect key = this->keys[i]->getBounds();
-        sf::FloatRect player = this->bomberMan->getBounds();
-        if(abs(key.top - player.top) <= key.width-3  && abs(key.left - player.left) <= key.width-3 ) {
-            for (int i = 0; i < keys.size(); ++i) {
-                    float key_X = this->keys[i]->getBounds().left;
-                    float key_Y = this->keys[i]->getBounds().top;
-                    if(key_X == key.left && key_Y == key.top){
-                        this->plusKeyCollectedByOne();
-                        delete keys[i];
-                        keys.erase(keys.begin() + i);
-                        std::cout<< this->getKeyCollected()<<"\n";
-                }
-            }
-        }
-
-    }
-}
-
 int Game::getKeyCollected() {
     return keyCollected;
 }
@@ -544,12 +564,6 @@ void Game::updateEnemiesBomberManCollosion() {
         }
     }
 }
-
-
-
-
-
-
 
 
 

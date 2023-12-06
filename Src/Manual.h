@@ -7,6 +7,7 @@
 const int windowWidth = 500;
 const int windowHeight = 500;
 
+const int STATUSBARHEIGHT = 35;
 
 const std::string BMAN_UP_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/boy/up.png";
 const std::string BMAN_DOWN_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/boy/down-stay.png";
@@ -25,7 +26,7 @@ const std::string ENEMY_DOWN_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Spri
 const std::string ENEMY_RIGHT_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/girl/right.png";
 const std::string ENEMY_LEFT_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/girl/left.png";
 const std::string DOOR_TEXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/Door.png";
-
+const std::string STATUSBAR_TXT = "/home/parsa/CLionProjects/BomberMan_V5/Sprites/statusbar.png";
 
 
 const int MAX_LIVES = 3;
