@@ -38,22 +38,21 @@ public:
     virtual ~Bomberman();
 
 
-    //Accessors
+
     const sf::FloatRect getBounds() const;
     std::string getDirection();
     int getLivesRemain();
     bool getIsHide();
-    float getMovementSpeed();
     sf::Sprite getSprite();
 
-    //Modifies
+
     void setPosition(const float x, const float y);
     void setScale(const float xScale,const float yScale);
     void changeDirection(const std::string& direction);
     void doubleMovementSpeed();
     void ExtraLife();
 
-    //Functions
+
     void move(const float dirX, const float dirY);
     void update();
     void render(sf::RenderTarget& target);

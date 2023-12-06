@@ -12,12 +12,12 @@ public:
     Wall(char type);
     ~Wall();
 
-    //Functions
+
     void setPosition(float x, float y);
     void setScale(const float xScale,const float yScale);
     void render(sf::RenderTarget& target);
 
-    //Accessors
+
     const sf::FloatRect getBounds() const;
     sf::Sprite getsprite();
     char getType();
@@ -29,7 +29,7 @@ private:
     sf::Texture typeTextureB;
     sf::Texture typeTextureP;
 
-    //Private Functions
+
     void initTexture();
     void initSprite();
 };

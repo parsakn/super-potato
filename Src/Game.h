@@ -22,47 +22,47 @@
 
 class Game {
 private:
-    //Window
+
     sf::RenderWindow* window;
 
-    //Background
+
     sf::Texture grassTexture;
     sf::Sprite grassSprite;
 
-    //Map
+
     std::vector<std::vector<char>> map;
 
 
-    //Walls
+
     std::vector<Wall*> walls;
 
-    //Map Specifications
+
     int numBlocksX;
     int numBlockY;
     int blockSize;
 
-    //StatusBar
+
     Statusbar* statusbar;
 
-    //Enemies
+
     std::vector<Enemy*> enemies;
 
-    //Bombs
+
     std::vector<Bomb*> bombs;
 
-    //Keys
+
     std::vector<Key*> keys;
 
-    //Powerups
+
     std::vector<PoweUps*> powerUps;
 
-    //BomberMan
+
     Bomberman* bomberMan;
 
-    //Door
+
     Door* door;
 
-    //Private Functions
+
     void initWindow();
     void initDoor();
     void initGrassTexture();
@@ -79,18 +79,18 @@ private:
     void initEndGameTexts();
 
 
-    //Variables
-    int bombMaxCount;
+
+
     int keyCollected;
     std::vector<int> randomWallsB;
 
-    //Status
+
     sf::Font font;
     bool wonGame;
     bool LoseGame;
     bool isReachedDoor;
 
-    //EndGame
+
     sf::RectangleShape endGameStatus;
     sf::Text wonGameMessage;
     sf::Text loseGameMessage;
@@ -104,7 +104,7 @@ public:
     Game();
     ~Game();
 
-    //Functions
+
     int getKeyCollected();
     void plusKeyCollectedByOne();
     void bombing();

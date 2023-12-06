@@ -14,13 +14,13 @@ public:
 
     void render(sf::RenderTarget& target);
 
-    //Accessors
+
 
     sf::FloatRect getBounds();
     char getType();
 
 
-    //Modifies
+
     void setPosition(const float x, const float y);
     void setScale(const float xScale,const float yScale);
 

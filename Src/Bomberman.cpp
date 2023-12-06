@@ -139,9 +139,6 @@ sf::Sprite Bomberman::getSprite() {
     return this->sprite;
 }
 
-float Bomberman::getMovementSpeed() {
-    return movementSpeed;
-}
 
 void Bomberman::doubleMovementSpeed() {
     this->movementSpeed = this->movementSpeed * 2;

@@ -22,7 +22,7 @@ public:
     void updateLivesBar();
 
 
-    //Modifies
+
     void setPosition();
     void setScale();
     void setLives(int livescount);

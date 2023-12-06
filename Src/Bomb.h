@@ -17,10 +17,10 @@ public:
     sf::Clock timer;
     float elapsedSeconds;
 
-    //Accessors
+
      sf::FloatRect getBounds() ;
 
-    //Modifies
+
     void setPosition(const float x, const float y);
     void setScale(const float xScale,const float yScale);
 

@@ -48,7 +48,7 @@ void Game::initStatusBar() {
 }
 
 void Game::initVariables() {
-    this->bombMaxCount = MAX_BOMBS;
+
     this->keyCollected = 0;
     this->isReachedDoor = false;
     this->wonGame = false;
@@ -154,6 +154,30 @@ void Game::initPowerUps() {
         float wall_y = wallbounds.top;
         powerUps[i]->setPosition(wall_x,wall_y);
     }
+}
+
+void Game::initEndGameStatus() {
+    endGameStatus.setSize(sf::Vector2f(windowWidth , windowHeight + STATUSBARHEIGHT));
+    endGameStatus.setFillColor(sf::Color::White);
+    endGameStatus.setPosition(0, 0);
+}
+
+void Game::initEndGameTexts() {
+    if (!font.loadFromFile(FONT_TTF)) {
+        std::cerr << "Font loading failed!" << std::endl;
+    }
+
+    wonGameMessage.setFont(font);
+    wonGameMessage.setCharacterSize(23);
+    wonGameMessage.setFillColor(sf::Color::Green);
+    wonGameMessage.setPosition(0 ,  (windowHeight + STATUSBARHEIGHT - 100)/2);
+    wonGameMessage.setString("YOU AVOIDED HARAAM\n\nAND FOUND \n\nTHE PATH TO HEAVEN!!");
+
+    loseGameMessage.setFont(font);
+    loseGameMessage.setCharacterSize(23);
+    loseGameMessage.setFillColor(sf::Color::Red);
+    loseGameMessage.setPosition(0 ,  (windowHeight + STATUSBARHEIGHT - 100)/2);
+    loseGameMessage.setString("GIRLS DISTRACTED YOU \n\nSORRY LOSER!");
 }
 
 void Game::initMapSpecifications() {
@@ -417,6 +441,56 @@ void Game::updatePowerUps() {
     }
 }
 
+void Game::updateEnemiesBomberManCollosion() {
+    for (int i = 0; i < enemies.size(); ++i) {
+        if (enemies[i]->getsprite().getGlobalBounds().intersects(this->bomberMan->getSprite().getGlobalBounds())){
+            delete enemies[i];
+            enemies.erase(enemies.begin() + i);
+            this->bomberMan->loseLife();
+            std::cout << this->bomberMan->getLivesRemain() << std::endl;
+        }
+    }
+}
+
+void Game::updatelapsedseconds() {
+    this->elapsedSeconds = timer.getElapsedTime().asSeconds();
+
+}
+
+void Game::updatestatusbar() {
+    this->statusbar->updateCountdownText(120.f - this->elapsedSeconds);
+    this->statusbar->setLives(this->bomberMan->getLivesRemain());
+    this->statusbar->setkeys(keyCollected);
+    this->statusbar->updateLivesBar();
+}
+
+void Game::updateGameStatus() {
+    if(isReachedDoor && elapsedSeconds < 120.f){
+        this->wonGame = true;
+        std::cout << "wooon" << std::endl;
+    }
+    if (elapsedSeconds > 120.f || this->bomberMan->getLivesRemain() == 0){
+        this->LoseGame = true;
+        std::cout << "looose" << std::endl;
+    }
+}
+
+void Game::updateEnemiesBoundsCollosion() {
+    for (int i = 0; i < enemies.size(); ++i) {
+        for (int j = 0; j < walls.size(); ++j) {
+            if (enemies[i]->getsprite().getGlobalBounds().intersects(walls[j]->getsprite().getGlobalBounds())){
+                if (enemies[i]->getDirection() == "Right"){enemies[i]->changeDirection("Left");}
+                else if (enemies[i]->getDirection() == "Left"){enemies[i]->changeDirection("Right");}
+                else if (enemies[i]->getDirection() == "Up"){enemies[i]->changeDirection("Down");}
+                else if (enemies[i]->getDirection() == "Down"){enemies[i]->changeDirection("Up");}
+            }
+            if (enemies[i]->getBounds().left <= 0){enemies[i]->changeDirection("Right");}
+            if (enemies[i]->getBounds().top <= 0){enemies[i]->changeDirection("Down");}
+            if (enemies[i]->getBounds().left + enemies[i]->getBounds().width >= windowWidth){enemies[i]->changeDirection("Left");}
+            if (enemies[i]->getBounds().left + enemies[i]->getBounds().height >= windowHeight){enemies[i]->changeDirection("Up");}
+        }
+    }
+}
 
 void Game::updateDoor() {
     sf::FloatRect doorxy = this->door->getBounds();
@@ -506,6 +580,36 @@ void Game::tickTokExplode() {
     }
 }
 
+void Game::wallExplosion(std::vector<sf::Vector2f> positions) {
+    for (int i = 0; i < walls.size(); ++i) {
+        for (int j = 0; j < positions.size(); ++j) {
+            float wall_X = this->walls[i]->getBounds().left;
+            float wall_Y = this->walls[i]->getBounds().top;
+
+            if(wall_X == positions[j].x && wall_Y == positions[j].y && walls[i]->getType() == 'B'){
+                delete walls[i];
+                walls.erase(walls.begin() + i);
+            }
+        }
+    }
+}
+
+void Game::enemyExplosion(std::vector<sf::Vector2f> positions) {
+    for (int i = 0; i < enemies.size(); ++i) {
+        float new_X =  enemies[i]->getBounds().left + ((blockSize)/2);
+        float new_Y = enemies[i]->getBounds().top + ((blockSize)/2);
+        float enemy_x = new_X - ( static_cast<int>(floor(new_X)) % static_cast<int>(blockSize));
+        float enemy_y = new_Y - ( static_cast<int>(floor(new_Y)) % static_cast<int>(blockSize));
+        for (int j = 0; j < positions.size(); ++j) {
+            if(enemy_x == positions[j].x && enemy_y == positions[j].y){
+                delete enemies[i];
+                enemies.erase(enemies.begin() + i);
+            }
+        }
+
+    }
+}
+
 std::vector<sf::Vector2f> Game::FindExplodedBlocks(sf::Vector2f bomb) {
 
     std::vector<sf::Vector2f> positions;
@@ -526,19 +630,6 @@ std::vector<sf::Vector2f> Game::FindExplodedBlocks(sf::Vector2f bomb) {
 
 }
 
-void Game::wallExplosion(std::vector<sf::Vector2f> positions) {
-    for (int i = 0; i < walls.size(); ++i) {
-        for (int j = 0; j < positions.size(); ++j) {
-            float wall_X = this->walls[i]->getBounds().left;
-            float wall_Y = this->walls[i]->getBounds().top;
-
-            if(wall_X == positions[j].x && wall_Y == positions[j].y && walls[i]->getType() == 'B'){
-                delete walls[i];
-                walls.erase(walls.begin() + i);
-            }
-        }
-    }
-}
 
 void Game::bombermanExplosion(std::vector<sf::Vector2f> positions) {
     sf::Vector2f boyBlock = calcBombPos();
@@ -584,97 +675,6 @@ int Game::getKeyCollected() {
 
 void Game::plusKeyCollectedByOne() {
     keyCollected++;
-}
-
-void Game::updateEnemiesBoundsCollosion() {
-    for (int i = 0; i < enemies.size(); ++i) {
-        for (int j = 0; j < walls.size(); ++j) {
-            if (enemies[i]->getsprite().getGlobalBounds().intersects(walls[j]->getsprite().getGlobalBounds())){
-                if (enemies[i]->getDirection() == "Right"){enemies[i]->changeDirection("Left");}
-                else if (enemies[i]->getDirection() == "Left"){enemies[i]->changeDirection("Right");}
-                else if (enemies[i]->getDirection() == "Up"){enemies[i]->changeDirection("Down");}
-                else if (enemies[i]->getDirection() == "Down"){enemies[i]->changeDirection("Up");}
-            }
-            if (enemies[i]->getBounds().left <= 0){enemies[i]->changeDirection("Right");}
-            if (enemies[i]->getBounds().top <= 0){enemies[i]->changeDirection("Down");}
-            if (enemies[i]->getBounds().left + enemies[i]->getBounds().width >= windowWidth){enemies[i]->changeDirection("Left");}
-            if (enemies[i]->getBounds().left + enemies[i]->getBounds().height >= windowHeight){enemies[i]->changeDirection("Up");}
-        }
-    }
-}
-
-void Game::enemyExplosion(std::vector<sf::Vector2f> positions) {
-    for (int i = 0; i < enemies.size(); ++i) {
-        float new_X =  enemies[i]->getBounds().left + ((blockSize)/2);
-        float new_Y = enemies[i]->getBounds().top + ((blockSize)/2);
-        float enemy_x = new_X - ( static_cast<int>(floor(new_X)) % static_cast<int>(blockSize));
-        float enemy_y = new_Y - ( static_cast<int>(floor(new_Y)) % static_cast<int>(blockSize));
-        for (int j = 0; j < positions.size(); ++j) {
-            if(enemy_x == positions[j].x && enemy_y == positions[j].y){
-                delete enemies[i];
-                enemies.erase(enemies.begin() + i);
-            }
-        }
-
-    }
-}
-
-void Game::updateEnemiesBomberManCollosion() {
-    for (int i = 0; i < enemies.size(); ++i) {
-        if (enemies[i]->getsprite().getGlobalBounds().intersects(this->bomberMan->getSprite().getGlobalBounds())){
-            delete enemies[i];
-            enemies.erase(enemies.begin() + i);
-            this->bomberMan->loseLife();
-            std::cout << this->bomberMan->getLivesRemain() << std::endl;
-        }
-    }
-}
-
-void Game::updatelapsedseconds() {
-    this->elapsedSeconds = timer.getElapsedTime().asSeconds();
-
-}
-
-void Game::updatestatusbar() {
-    this->statusbar->updateCountdownText(120.f - this->elapsedSeconds);
-    this->statusbar->setLives(this->bomberMan->getLivesRemain());
-    this->statusbar->setkeys(keyCollected);
-    this->statusbar->updateLivesBar();
-}
-
-void Game::updateGameStatus() {
-    if(isReachedDoor && elapsedSeconds < 120.f){
-        this->wonGame = true;
-        std::cout << "wooon" << std::endl;
-    }
-    if (elapsedSeconds > 120.f || this->bomberMan->getLivesRemain() == 0){
-        this->LoseGame = true;
-        std::cout << "looose" << std::endl;
-    }
-}
-
-void Game::initEndGameStatus() {
-    endGameStatus.setSize(sf::Vector2f(windowWidth , windowHeight + STATUSBARHEIGHT));
-    endGameStatus.setFillColor(sf::Color::White);
-    endGameStatus.setPosition(0, 0);
-}
-
-void Game::initEndGameTexts() {
-    if (!font.loadFromFile(FONT_TTF)) {
-        std::cerr << "Font loading failed!" << std::endl;
-    }
-
-    wonGameMessage.setFont(font);
-    wonGameMessage.setCharacterSize(23);
-    wonGameMessage.setFillColor(sf::Color::Green);
-    wonGameMessage.setPosition(0 ,  (windowHeight + STATUSBARHEIGHT - 100)/2);
-    wonGameMessage.setString("YOU AVOIDED HARAAM\n\nAND FOUND \n\nTHE PATH TO HEAVEN!!");
-
-    loseGameMessage.setFont(font);
-    loseGameMessage.setCharacterSize(23);
-    loseGameMessage.setFillColor(sf::Color::Red);
-    loseGameMessage.setPosition(0 ,  (windowHeight + STATUSBARHEIGHT - 100)/2);
-    loseGameMessage.setString("GIRLS DISTRACTED YOU \n\nSORRY LOSER!");
 }
 
 
